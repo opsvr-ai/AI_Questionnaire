@@ -4,7 +4,7 @@ import csv
 import io
 from datetime import datetime
 
-from flask import Flask
+from flask import Flask, request, jsonify, send_file, send_from_directory
 
 TEAMS = [
     "托管系统运维团队",
@@ -59,8 +59,6 @@ def init_db():
     conn.close()
 
 
-init_db()
-
 app = Flask(__name__)
 
 
@@ -75,4 +73,5 @@ def dashboard():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    init_db()
+    app.run(host="0.0.0.0", port=5000)
