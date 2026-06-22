@@ -198,6 +198,7 @@ def api_stats():
         "proficiencies": {},
         "attitudes": {},
         "tools": {},
+        "work_types": {},
         "office_habits": {},
         "rd_tools": {},
         "rd_domains": {},
@@ -231,6 +232,7 @@ def api_stats():
 
         multi_fields = [
             ("q4_tools", "tools"),
+            ("q5_work_types", "work_types"),
             ("q_office_habits", "office_habits"),
             ("q_rd_tools", "rd_tools"),
             ("q_rd_domains", "rd_domains"),
