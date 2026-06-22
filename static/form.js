@@ -1,11 +1,7 @@
 /* === AI Survey Form === */
 
-const TEAM_NAMES = [
-  "托管系统运维团队", "数据库运维组", "生产调度团队",
-  "商务管理团队", "网络运维团队", "流程管理组",
-  "运行监控团队", "运维平台支撑团队", "主机运维团队",
-  "测试环境支持团队", "中间件运维团队"
-];
+// 团队列表从后端 API 动态获取，确保与 app.py 同步
+let TEAM_NAMES = [];
 
 const formData = {
   team: '', submitter: '',
@@ -149,7 +145,17 @@ function getOpts(id) {
 
 // === Init ===
 async function init() {
-  try { const r = await fetch('/api/submissions'); submittedTeams = await r.json(); } catch (e) {}
+  try {
+    const [teamsRes, subsRes] = await Promise.all([
+      fetch('/api/teams'),
+      fetch('/api/submissions')
+    ]);
+    TEAM_NAMES = await teamsRes.json();
+    submittedTeams = await subsRes.json();
+  } catch (e) {
+    showToast('无法加载团队列表，请刷新重试', 'error');
+    return;
+  }
   renderStep(0);
 }
 
