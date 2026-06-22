@@ -178,6 +178,32 @@ function bindActions() {
   };
 }
 
+async function resetDatabase() {
+  var confirmed = confirm('确认重置数据库？\n\n此操作将删除所有已提交的问卷数据，且不可恢复。');
+  if (!confirmed) return;
+  var doubleCheck = prompt('请输入 "确认重置" 以确认操作：');
+  if (doubleCheck !== '确认重置') {
+    alert('输入不匹配，操作已取消。');
+    return;
+  }
+  try {
+    var resp = await fetch('/api/reset', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ confirm: '确认重置' })
+    });
+    var data = await resp.json();
+    if (resp.ok) {
+      alert(data.message);
+      location.reload();
+    } else {
+      alert('重置失败: ' + (data.error || '未知错误'));
+    }
+  } catch (e) {
+    alert('网络错误，无法连接到服务器。');
+  }
+}
+
 function exportCSV() { window.location.href = '/api/export'; }
 
 document.addEventListener('DOMContentLoaded', init);
