@@ -55,9 +55,9 @@ a { color: var(--c-primary); text-decoration: none; }
 a:hover { text-decoration: underline; }
 
 /* === Layout === */
-.container { max-width: 1320px; margin: 0 auto; padding: 32px 28px; }
+.container { max-width: 1480px; margin: 0 auto; padding: 32px 28px; }
 .page-header { border-bottom: 1px solid var(--c-border); padding-bottom: 24px; margin-bottom: 40px; }
-.page-header p { margin-top: 6px; max-width: 720px; line-height: 1.6; }
+.page-header p { margin-top: 6px; max-width: 840px; line-height: 1.6; }
 .section { margin-bottom: 36px; }
 .section-header {
   border-left: 2px solid var(--c-primary); padding-left: 20px; margin-bottom: 20px;
@@ -219,14 +219,26 @@ a:hover { text-decoration: underline; }
 .table-wrap h3 {
   padding: 16px 20px; border-bottom: 1px solid var(--c-border); margin: 0;
 }
-.data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.data-table { width: 100%; border-collapse: collapse; font-size: 13px; table-layout: fixed; }
 .data-table th {
-  text-align: left; padding: 10px 20px; border-bottom: 1px solid var(--c-border);
+  text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--c-border);
   color: var(--c-text-muted); font-weight: 500; font-size: 11px;
-  text-transform: uppercase; letter-spacing: 0.05em;
+  text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap;
 }
-.data-table td { padding: 12px 20px; border-bottom: 1px solid var(--c-border-light); }
+.data-table td { padding: 10px 12px; border-bottom: 1px solid var(--c-border-light); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .data-table tr:hover td { background: var(--c-bg); }
+
+/* Column widths — team table */
+.col-team { width: 14%; }
+.col-name { width: 6%; }
+.col-freq { width: 7%; }
+.col-cov { width: 8%; }
+.col-prof { width: 9%; }
+.col-help { width: 8%; }
+.col-rd { width: 16%; }
+.col-problem { width: 14%; }
+.col-att { width: 8%; }
+.col-time { width: 8%; }
 .badge {
   display: inline-block; padding: 2px 8px; border-radius: 3px; font-size: 11px; font-weight: 500;
 }
@@ -284,6 +296,8 @@ a:hover { text-decoration: underline; }
   .stat-hero { flex-direction: column; text-align: center; }
   .charts-grid { grid-template-columns: 1fr; }
   .hbar .hbar-label { width: 120px; font-size: 12px; }
+  .data-table { font-size: 12px; table-layout: auto; }
+  .data-table td { white-space: normal; }
 }
 @media (max-width: 480px) {
   h1 { font-size: 18px; }

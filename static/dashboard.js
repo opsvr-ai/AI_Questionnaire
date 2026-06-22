@@ -176,7 +176,9 @@ function renderTeamTable() {
   }
 
   var h = '<table class="data-table"><thead><tr>';
-  ['团队', '填写人', '使用频率', '覆盖率', '掌握程度', '帮助程度', '研发领域', '核心问题', '推广态度', '提交时间'].forEach(function(hd) { h += '<th>' + hd + '</th>'; });
+  var cols = ['团队', '填写人', '使用频率', '覆盖率', '掌握程度', '帮助程度', '研发领域', '核心问题', '推广态度', '提交时间'];
+  var cls = ['col-team', 'col-name', 'col-freq', 'col-cov', 'col-prof', 'col-help', 'col-rd', 'col-problem', 'col-att', 'col-time'];
+  cols.forEach(function(hd, i) { h += '<th class="' + cls[i] + '">' + hd + '</th>'; });
   h += '</tr></thead><tbody>';
 
   allResponses.forEach(function(r) {
@@ -199,16 +201,16 @@ function renderTeamTable() {
     else if (cpl.indexOf('良好') !== -1 || cpl.indexOf('无') !== -1) pbb = '<span class="badge badge-green">无问题</span>';
 
     h += '<tr>';
-    h += '<td style="font-weight:500;">' + r.team + '</td>';
-    h += '<td class="text-sm">' + (r.submitter || '') + '</td>';
-    h += '<td>' + fb + '</td>';
-    h += '<td>' + cb + '</td>';
-    h += '<td>' + pb + '</td>';
-    h += '<td>' + hb + '</td>';
-    h += '<td class="text-sm">' + (rdDomains.length > 0 ? rdDomains.slice(0,2).join('；') + (rdDomains.length > 2 ? '…' : '') : '—') + '</td>';
-    h += '<td>' + pbb + (cp ? ' <span class="text-sm text-muted">' + cp.substring(0,12) + (cp.length > 12 ? '…' : '') + '</span>' : '') + '</td>';
-    h += '<td>' + ab + '</td>';
-    h += '<td class="text-sm text-muted">' + (r.created_at || '').substring(0, 10) + '</td>';
+    h += '<td class="col-team" style="font-weight:500;">' + r.team + '</td>';
+    h += '<td class="col-name text-sm">' + (r.submitter || '') + '</td>';
+    h += '<td class="col-freq">' + fb + '</td>';
+    h += '<td class="col-cov">' + cb + '</td>';
+    h += '<td class="col-prof">' + pb + '</td>';
+    h += '<td class="col-help">' + hb + '</td>';
+    h += '<td class="col-rd text-sm">' + (rdDomains.length > 0 ? rdDomains.join('；') : '—') + '</td>';
+    h += '<td class="col-problem">' + pbb + (cp ? ' <span class="text-sm text-muted">' + cp.substring(0,15) + (cp.length > 15 ? '…' : '') + '</span>' : '') + '</td>';
+    h += '<td class="col-att">' + ab + '</td>';
+    h += '<td class="col-time text-sm text-muted">' + (r.created_at || '').substring(0, 10) + '</td>';
     h += '</tr>';
   });
 
