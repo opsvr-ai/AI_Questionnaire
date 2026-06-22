@@ -232,7 +232,7 @@ function renderRadio(q, v) {
   q.options.forEach(opt => {
     const sel = v === opt;
     h += `<div class="option-card${sel ? ' selected' : ''}" onclick="selectRadio('${q.id}', this)">`;
-    h += `<input type="radio" name="${q.id}" ${sel ? 'checked' : ''} onclick="event.stopPropagation()">${escHtml(opt)}</div>`;
+    h += `<input type="radio" name="${q.id}" ${sel ? 'checked' : ''}>${escHtml(opt)}</div>`;
   });
   h += '</div>';
   return h;
@@ -247,7 +247,7 @@ function renderCheckboxTags(q, v) {
   q.options.forEach(opt => {
     const ck = preset.includes(opt);
     h += `<div class="option-card${ck ? ' selected' : ''}" onclick="toggleCheckbox('${q.id}', this)">`;
-    h += `<input type="checkbox" value="${escAttr(opt)}" ${ck ? 'checked' : ''} onclick="event.stopPropagation()">${escHtml(opt)}</div>`;
+    h += `<input type="checkbox" value="${escAttr(opt)}" ${ck ? 'checked' : ''}>${escHtml(opt)}</div>`;
   });
   h += '</div>';
   h += renderTagArea(q, custom);
@@ -263,7 +263,7 @@ function renderRadioTags(q, v) {
   q.options.forEach(opt => {
     const sel = preset === opt;
     h += `<div class="option-card${sel ? ' selected' : ''}" onclick="selectRadioTag('${q.id}', this)">`;
-    h += `<input type="radio" name="${q.id}" ${sel ? 'checked' : ''} onclick="event.stopPropagation()">${escHtml(opt)}</div>`;
+    h += `<input type="radio" name="${q.id}" ${sel ? 'checked' : ''}>${escHtml(opt)}</div>`;
   });
   h += '</div>';
   h += renderTagArea(q, custom);
