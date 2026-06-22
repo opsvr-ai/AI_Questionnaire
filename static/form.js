@@ -213,7 +213,8 @@ function updateProgress(si) {
 
 // === Render helpers ===
 function renderSelect(q, v) {
-  let h = `<select class="form-select" id="${q.id}" onchange="updateField('${q.id}', this.value)">`;
+  var cls = 'form-select' + (q.id === 'team' ? ' form-select-short' : '');
+  let h = `<select class="${cls}" id="${q.id}" onchange="updateField('${q.id}', this.value)">`;
   h += `<option value="">${q.placeholder || '请选择…'}</option>`;
   q.options.forEach(opt => {
     const disabled = q.id === 'team' && submittedTeams.includes(opt);
@@ -224,7 +225,8 @@ function renderSelect(q, v) {
 }
 
 function renderText(q, v) {
-  return `<input class="form-input" id="${q.id}" type="text" placeholder="${escAttr(q.placeholder || '')}" value="${escAttr(v || '')}" onchange="updateField('${q.id}', this.value)">`;
+  var cls = 'form-input' + (q.id === 'submitter' ? ' form-input-short' : '');
+  return `<input class="${cls}" id="${q.id}" type="text" placeholder="${escAttr(q.placeholder || '')}" value="${escAttr(v || '')}" onchange="updateField('${q.id}', this.value)">`;
 }
 
 function renderRadio(q, v) {
