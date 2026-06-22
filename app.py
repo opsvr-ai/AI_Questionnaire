@@ -279,19 +279,6 @@ def api_delete(response_id):
     return jsonify({"success": True, "message": "已删除"})
 
 
-@app.route("/api/reset", methods=["POST"])
-def api_reset():
-    data = request.get_json() or {}
-    confirm = data.get("confirm", "").strip()
-    if confirm != "确认重置":
-        return jsonify({"error": "请输入 '确认重置' 以确认操作"}), 400
-
-    with get_db() as conn:
-        conn.execute("DROP TABLE IF EXISTS responses")
-    init_db()
-    return jsonify({"success": True, "message": "数据库已重新初始化，所有数据已清除"})
-
-
 if __name__ == "__main__":
     init_db()
     app.run(host="0.0.0.0", port=5000)
