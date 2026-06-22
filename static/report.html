@@ -3,62 +3,96 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>团队报告 — AI 工具使用情况调研</title>
+<title>详细报告 — AI 工具使用情况调研</title>
 <link rel="stylesheet" href="/static/fonts/fonts.css">
 <link rel="stylesheet" href="/static/style.css">
 <style>
+  /* === Report specific === */
+  .report-topbar {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    border-bottom: 1px solid var(--c-border); padding-bottom: 22px; margin-bottom: 28px;
+  }
+  .section-label {
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em;
+    color: var(--c-primary); font-weight: 600; margin: 28px 0 12px;
+    padding-bottom: 6px; border-bottom: 2px solid var(--c-primary-light);
+  }
+  .section-label:first-child { margin-top: 0; }
+
+  /* === Team grid === */
+  .team-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(420px, 1fr)); gap: 20px;
+  }
   .team-card {
     background: var(--c-surface); border: 1px solid var(--c-border);
-    border-radius: var(--radius-lg); margin-bottom: 24px; overflow: hidden;
+    border-radius: var(--radius-lg); overflow: hidden;
+    break-inside: avoid;
   }
-  .team-card-header {
-    padding: 16px 24px; border-bottom: 1px solid var(--c-border);
+  .card-head {
+    padding: 14px 20px; border-bottom: 1px solid var(--c-border-light);
     display: flex; justify-content: space-between; align-items: center;
-    background: var(--c-bg);
   }
-  .team-card-header h2 { font-size: 16px; margin: 0; }
-  .team-card-body { padding: 20px 24px; }
-  .qa-block { margin-bottom: 20px; }
-  .qa-block:last-child { margin-bottom: 0; }
-  .qa-q {
-    font-size: 13px; font-weight: 500; color: var(--c-text);
-    margin-bottom: 4px; font-family: var(--font-sans);
+  .card-head .team-name { font-size: 15px; font-weight: 600; color: var(--c-text); }
+  .card-head .team-meta { font-size: 12px; color: var(--c-text-muted); text-align: right; }
+  .card-body { padding: 14px 20px; }
+
+  /* === Compact row === */
+  .info-row {
+    display: flex; align-items: baseline; gap: 8px; padding: 5px 0;
+    font-size: 13px; line-height: 1.6;
   }
-  .qa-a {
-    font-size: 14px; color: var(--c-text-secondary); line-height: 1.7;
-    display: flex; flex-wrap: wrap; gap: 6px;
+  .info-label {
+    color: var(--c-text-muted); flex-shrink: 0; min-width: 85px;
+    font-size: 12px;
   }
-  .qa-tag {
-    display: inline-block; padding: 2px 10px; border-radius: var(--radius-sm);
-    font-size: 13px; background: var(--c-primary-light); color: var(--c-primary);
-    border: 1px solid #BFDBFE;
+  .info-value { color: var(--c-text); }
+  .info-value.muted { color: var(--c-text-muted); font-style: italic; }
+
+  /* === Tags inline === */
+  .tag-row { display: flex; flex-wrap: wrap; gap: 4px; }
+  .tag-dot {
+    display: inline-block; padding: 2px 8px; border-radius: var(--radius-sm);
+    font-size: 12px; background: var(--c-primary-light); color: var(--c-primary);
+    border: 1px solid #BFDBFE; white-space: nowrap;
   }
-  .qa-text { color: var(--c-text-secondary); line-height: 1.7; }
-  .qa-empty { color: var(--c-text-muted); font-style: italic; }
-  .section-divider {
-    padding: 8px 24px; background: var(--c-bg);
-    font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em;
-    color: var(--c-primary); font-weight: 600; border-bottom: 1px solid var(--c-border);
+  .tag-dot.red { background: var(--c-error-light); color: var(--c-error); border-color: #FECACA; }
+  .tag-dot.amber { background: var(--c-accent-light); color: var(--c-accent); border-color: #FDE68A; }
+  .tag-dot.green { background: var(--c-success-light); color: var(--c-success); border-color: #BBF7D0; }
+
+  /* === Compact badges === */
+  .pill {
+    display: inline-block; padding: 1px 7px; border-radius: 3px;
+    font-size: 11px; font-weight: 500; white-space: nowrap;
+  }
+  .pill-green { background: #DCFCE7; color: #16A34A; }
+  .pill-blue { background: #DBEAFE; color: #1D4ED8; }
+  .pill-amber { background: #FEF3C7; color: #B45309; }
+  .pill-red { background: #FEE2E2; color: #DC2626; }
+  .pill-gray { background: #F1F5F9; color: #64748B; }
+
+  @media (max-width: 500px) {
+    .team-grid { grid-template-columns: 1fr; }
   }
 </style>
 </head>
 <body>
 <div class="container">
 
-  <header class="page-header flex-between">
+  <div class="report-topbar">
     <div>
       <div class="eyebrow">Report · 详细报告</div>
       <h1>各团队填写情况</h1>
     </div>
-    <div class="text-sm text-muted" style="text-align:right;">
-      共 <strong id="teamCount" style="color:var(--c-primary);">--</strong> 个团队<br>
-      <a href="/dashboard">← 返回仪表盘</a>
+    <div style="text-align:right;">
+      <div class="text-sm text-muted">共 <strong id="teamCount" style="color:var(--c-primary);">--</strong> 个团队</div>
+      <div style="margin-top:8px;display:flex;gap:8px;">
+        <a href="/dashboard" class="btn btn-sm">仪表盘</a>
+        <a href="/" class="btn btn-sm">填报页</a>
+      </div>
     </div>
-  </header>
-
-  <div id="reportContent">
-    <div class="loading">加载中</div>
   </div>
+
+  <div id="reportContent"><div class="loading">加载中</div></div>
 
 </div>
 <script src="/static/report.js"></script>
