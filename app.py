@@ -38,10 +38,12 @@ def init_db():
             team TEXT NOT NULL UNIQUE,
             submitter TEXT NOT NULL,
             q3_frequency TEXT,
+            q_coverage TEXT,
             q4_tools TEXT DEFAULT '[]',
             q5_work_types TEXT DEFAULT '[]',
             q6_help_level TEXT,
             q7_efficiency TEXT,
+            q_proficiency TEXT,
             q8_problems TEXT DEFAULT '[]',
             q9_core_problem TEXT DEFAULT '[]',
             q10_weakness TEXT DEFAULT '[]',
@@ -49,12 +51,19 @@ def init_db():
             q12_untried_scenarios TEXT DEFAULT '',
             q13_desired_scenarios TEXT DEFAULT '[]',
             q14_support_needs TEXT DEFAULT '[]',
+            q_attitude TEXT,
             q15_suggestions TEXT DEFAULT '',
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         );
     """
     )
+    # Migrate: add new columns if they don't exist (for existing databases)
+    for col in ['q_coverage', 'q_proficiency', 'q_attitude']:
+        try:
+            conn.execute(f"ALTER TABLE responses ADD COLUMN {col} TEXT")
+        except sqlite3.OperationalError:
+            pass  # Column already exists
     conn.commit()
     conn.close()
 
@@ -102,10 +111,12 @@ def api_submit():
         "team": team,
         "submitter": submitter,
         "q3_frequency": data.get("q3_frequency", ""),
+        "q_coverage": data.get("q_coverage", ""),
         "q4_tools": json.dumps(data.get("q4_tools", []), ensure_ascii=False),
         "q5_work_types": json.dumps(data.get("q5_work_types", []), ensure_ascii=False),
         "q6_help_level": data.get("q6_help_level", ""),
         "q7_efficiency": data.get("q7_efficiency", ""),
+        "q_proficiency": data.get("q_proficiency", ""),
         "q8_problems": json.dumps(data.get("q8_problems", []), ensure_ascii=False),
         "q9_core_problem": json.dumps(data.get("q9_core_problem", []), ensure_ascii=False),
         "q10_weakness": json.dumps(data.get("q10_weakness", []), ensure_ascii=False),
@@ -113,6 +124,7 @@ def api_submit():
         "q12_untried_scenarios": data.get("q12_untried_scenarios", ""),
         "q13_desired_scenarios": json.dumps(data.get("q13_desired_scenarios", []), ensure_ascii=False),
         "q14_support_needs": json.dumps(data.get("q14_support_needs", []), ensure_ascii=False),
+        "q_attitude": data.get("q_attitude", ""),
         "q15_suggestions": data.get("q15_suggestions", ""),
     }
 
@@ -168,8 +180,11 @@ def api_stats():
         "submitted": len(rows),
         "unsubmitted": [t for t in TEAMS if not any(r["team"] == t for r in rows)],
         "frequencies": {},
+        "coverages": {},
         "help_levels": {},
         "efficiencies": {},
+        "proficiencies": {},
+        "attitudes": {},
         "tools": {},
         "problems": {},
         "core_problems": {},
@@ -183,12 +198,21 @@ def api_stats():
         f = r.get("q3_frequency", "")
         if f:
             stats["frequencies"][f] = stats["frequencies"].get(f, 0) + 1
+        cv = r.get("q_coverage", "")
+        if cv:
+            stats["coverages"][cv] = stats["coverages"].get(cv, 0) + 1
         h = r.get("q6_help_level", "")
         if h:
             stats["help_levels"][h] = stats["help_levels"].get(h, 0) + 1
         e = r.get("q7_efficiency", "")
         if e:
             stats["efficiencies"][e] = stats["efficiencies"].get(e, 0) + 1
+        p = r.get("q_proficiency", "")
+        if p:
+            stats["proficiencies"][p] = stats["proficiencies"].get(p, 0) + 1
+        a = r.get("q_attitude", "")
+        if a:
+            stats["attitudes"][a] = stats["attitudes"].get(a, 0) + 1
 
         multi_fields = [
             ("q4_tools", "tools"),
@@ -217,22 +241,25 @@ def api_export():
     output = io.StringIO()
     writer = csv.writer(output)
     writer.writerow([
-        "团队", "填写人", "AI使用频率", "使用工具", "工作内容",
-        "帮助程度", "效率提升", "遇到的问题", "核心问题",
+        "团队", "填写人", "AI使用频率", "成员覆盖比例", "使用工具", "工作内容",
+        "帮助程度", "效率提升", "掌握程度", "遇到的问题", "核心问题",
         "最大短板", "是否减少使用", "未尝试场景",
-        "期望场景", "期望支持", "意见建议", "提交时间",
+        "期望场景", "期望支持", "推广态度", "意见建议", "提交时间",
     ])
 
     for row in rows:
         r = dict(row)
         writer.writerow([
             r["team"], r["submitter"], r.get("q3_frequency", ""),
+            r.get("q_coverage", ""),
             r.get("q4_tools", ""), r.get("q5_work_types", ""),
             r.get("q6_help_level", ""), r.get("q7_efficiency", ""),
+            r.get("q_proficiency", ""),
             r.get("q8_problems", ""), r.get("q9_core_problem", ""),
             r.get("q10_weakness", ""), r.get("q11_reduced", ""),
             r.get("q12_untried_scenarios", ""), r.get("q13_desired_scenarios", ""),
-            r.get("q14_support_needs", ""), r.get("q15_suggestions", ""),
+            r.get("q14_support_needs", ""), r.get("q_attitude", ""),
+            r.get("q15_suggestions", ""),
             r.get("created_at", ""),
         ])
 
