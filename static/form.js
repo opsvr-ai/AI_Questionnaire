@@ -150,7 +150,8 @@ async function init() {
       fetch('/api/teams'),
       fetch('/api/submissions')
     ]);
-    TEAM_NAMES = await teamsRes.json();
+    const teams = await teamsRes.json();
+    TEAM_NAMES.splice(0, TEAM_NAMES.length, ...teams);  // 原地更新，保持引用
     submittedTeams = await subsRes.json();
   } catch (e) {
     showToast('无法加载团队列表，请刷新重试', 'error');
