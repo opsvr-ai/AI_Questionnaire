@@ -11,6 +11,7 @@ const formData = {
   team: '', submitter: '',
   q3_frequency: '', q_coverage: '', q4_tools: [],
   q5_work_types: [], q_office_habits: [],
+  q_rd_tools: [], q_rd_domains: [],
   q6_help_level: '', q7_efficiency: '',
   q_proficiency: '', q8_problems: [],
   q9_core_problem: [], q10_weakness: [], q11_reduced: [],
@@ -40,23 +41,38 @@ const STEPS = [
   {
     title: '应用现状',
     questions: [
-      { id: 'q5_work_types', type: 'checkbox-tags', label: 'AI 工具主要帮团队完成了哪些工作内容？', required: false,
+      { type: 'divider', label: '智能办公' },
+      { id: 'q5_work_types', type: 'checkbox-tags', label: 'AI 在智能办公方面帮团队完成了哪些工作？', required: false,
         options: ['文案工作：总结、汇报、方案、通知等撰写修改', '办公处理：排版润色、翻译、长文本总结提炼',
                   '会议相关：纪要整理、议题准备、会议复盘与跟进', '邮件处理：起草、回复、总结邮件内容',
                   '信息检索：替代传统搜索，快速查询政策/规范/技术资料', '数据工作：整理、计算、报表、分析、复盘',
                   '展示物料：PPT大纲生成、内容填充、海报/配图素材', '沟通工作：对外话术、对接文案、答疑内容',
-                  '学习提升：业务知识答疑、工作方法学习、专业内容解读', '代码开发：编写、调试、优化、重构代码',
-                  '功能开发：前端设计、功能开发、功能测试', '日常运维：脚本、告警分析、知识问答',
-                  '流程管理：变更评审、流程管理', '创新工作：活动策划、思路构思、优化方案'],
-        tagPlaceholder: '输入其他工作内容，Enter 添加…' },
+                  '学习提升：业务知识答疑、工作方法学习、专业内容解读', '流程管理：变更评审、流程管理',
+                  '创新工作：活动策划、思路构思、优化方案'],
+        tagPlaceholder: '输入其他办公场景，Enter 添加…' },
       { id: 'q_office_habits', type: 'checkbox-tags', label: '在日常办公中，团队成员主要通过哪些方式使用 AI 工具？', required: false,
         options: ['遇到问题先问 AI，替代传统搜索引擎', '用 AI 辅助撰写各类文档（周报/方案/汇报/邮件等）',
                   '用 AI 整理会议纪要、提炼讨论要点', '用 AI 翻译外文资料或进行跨语言沟通',
                   '用 AI 处理 Excel 数据（公式、透视表、图表制作）', '用 AI 润色优化已有文稿',
                   '用 AI 快速生成 PPT 大纲和内容', '用 AI 学习新知识、理解陌生领域',
-                  '用 AI 写代码/脚本/自动化工具', '用 AI 分析业务数据并生成洞察',
-                  '用 AI 辅助决策（方案对比、风险分析）', '日常闲聊/随意尝试，尚未固定使用模式'],
+                  '用 AI 分析业务数据并生成洞察', '用 AI 辅助决策（方案对比、风险分析）',
+                  '日常闲聊/随意尝试，尚未固定使用模式'],
         tagPlaceholder: '输入其他使用方式，Enter 添加…' },
+      { type: 'divider', label: '智能研发' },
+      { id: 'q_rd_tools', type: 'checkbox-tags', label: '团队在研发工作中使用了哪些 AI 编程/开发工具？', required: false,
+        options: ['Claude Code（终端编码 Agent）', 'OpenCode（终端编码 Agent）',
+                  'Cursor（AI 编辑器）', 'GitHub Copilot（代码补全）',
+                  'Windsurf（AI 编辑器）', '通义灵码（智能编码助手）',
+                  'Amazon Q Developer', 'Cline（VS Code AI 助手）',
+                  'Continue（开源 AI 编码助手）', '未涉及研发工作'],
+        tagPlaceholder: '输入其他研发工具，Enter 添加…' },
+      { id: 'q_rd_domains', type: 'checkbox-tags', label: '团队的研发工作主要涉及哪些领域？', required: false,
+        options: ['前端开发（HTML/CSS/JS/React/Vue/Angular 等）', '后端开发（Python/Java/Go/Node.js/C++ 等）',
+                  '脚本与自动化（Shell/Python 脚本、批处理、CI/CD）', '全栈开发',
+                  '移动端开发（iOS/Android/Flutter/React Native）', '数据库开发（SQL 优化、存储过程、ETL 等）',
+                  '软件测试（单元测试、集成测试、E2E 测试）', '数据分析与 BI（SQL 分析、报表、可视化）',
+                  '基础设施即代码（Terraform/Ansible/Docker/K8s 配置）', '未涉及研发工作'],
+        tagPlaceholder: '输入其他研发领域，Enter 添加…' },
       { id: 'q6_help_level', type: 'radio', label: 'AI 工具对团队工作的帮助程度如何？', required: true,
         options: ['极大提升 — 大幅节省时间、提升质量、降低压力', '有效提升 — 对部分工作有明显辅助',
                   '一般 — 偶尔有帮助，不明显', '几乎无帮助 — 实用性低', '完全无帮助'] },
@@ -142,10 +158,20 @@ function renderStep(si) {
   const step = STEPS[si];
   const c = document.getElementById('formContent');
   let h = '';
+  let qn = 0;
 
-  step.questions.forEach((q, qi) => {
+  step.questions.forEach((q) => {
+    // Divider
+    if (q.type === 'divider') {
+      h += `<div style="border-top:1px solid var(--c-border);margin:8px 0 24px;padding-top:20px;">
+        <span style="font-size:12px;text-transform:uppercase;letter-spacing:0.08em;color:var(--c-primary);font-weight:600;">${q.label}</span>
+      </div>`;
+      return;
+    }
+
+    qn++;
     const v = formData[q.id];
-    h += `<div class="section"><div class="section-header"><h3>Q${qi + 1}</h3><p class="q-title">${q.label}${q.required ? ' <span style="color:var(--c-error)">*</span>' : ''}</p></div>`;
+    h += `<div class="section"><div class="section-header"><h3>Q${qn}</h3><p class="q-title">${q.label}${q.required ? ' <span style="color:var(--c-error)">*</span>' : ''}</p></div>`;
 
     if (q.type === 'select') h += renderSelect(q, v);
     else if (q.type === 'text') h += renderText(q, v);
@@ -329,7 +355,7 @@ function prevStep() { if (currentStep > 0) renderStep(currentStep - 1); }
 function validateStep(si) {
   const errs = [];
   STEPS[si].questions.forEach(q => {
-    if (!q.required) return;
+    if (q.type === 'divider' || !q.required) return;
     const v = formData[q.id];
     if (!v || (Array.isArray(v) && v.length === 0)) errs.push(`"${q.label}" 为必填项`);
   });
@@ -344,6 +370,7 @@ function previewSubmit() {
   STEPS.forEach((step, si) => {
     h += `<h3 style="margin-top:16px;">${si + 1}. ${step.title}</h3>`;
     step.questions.forEach(q => {
+      if (q.type === 'divider') return;
       const v = formData[q.id];
       const d = Array.isArray(v) ? v.join('、') || '(未填写)' : (v || '(未填写)');
       h += `<p style="margin:4px 0;"><strong>${q.label}</strong><br><span style="color:var(--c-text-secondary);">${escHtml(d)}</span></p>`;

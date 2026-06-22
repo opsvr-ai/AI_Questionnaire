@@ -42,6 +42,8 @@ def init_db():
             q4_tools TEXT DEFAULT '[]',
             q5_work_types TEXT DEFAULT '[]',
             q_office_habits TEXT DEFAULT '[]',
+            q_rd_tools TEXT DEFAULT '[]',
+            q_rd_domains TEXT DEFAULT '[]',
             q6_help_level TEXT,
             q7_efficiency TEXT,
             q_proficiency TEXT,
@@ -60,7 +62,7 @@ def init_db():
     """
     )
     # Migrate: add new columns if they don't exist (for existing databases)
-    for col in ['q_coverage', 'q_proficiency', 'q_attitude', 'q_office_habits']:
+    for col in ['q_coverage', 'q_proficiency', 'q_attitude', 'q_office_habits', 'q_rd_tools', 'q_rd_domains']:
         try:
             conn.execute(f"ALTER TABLE responses ADD COLUMN {col} TEXT")
         except sqlite3.OperationalError:
@@ -116,6 +118,8 @@ def api_submit():
         "q4_tools": json.dumps(data.get("q4_tools", []), ensure_ascii=False),
         "q5_work_types": json.dumps(data.get("q5_work_types", []), ensure_ascii=False),
         "q_office_habits": json.dumps(data.get("q_office_habits", []), ensure_ascii=False),
+        "q_rd_tools": json.dumps(data.get("q_rd_tools", []), ensure_ascii=False),
+        "q_rd_domains": json.dumps(data.get("q_rd_domains", []), ensure_ascii=False),
         "q6_help_level": data.get("q6_help_level", ""),
         "q7_efficiency": data.get("q7_efficiency", ""),
         "q_proficiency": data.get("q_proficiency", ""),
@@ -158,8 +162,9 @@ def api_responses():
         rows = conn.execute("SELECT * FROM responses ORDER BY created_at DESC").fetchall()
     result = []
     json_fields = [
-        "q4_tools", "q5_work_types", "q_office_habits", "q8_problems", "q9_core_problem",
-        "q10_weakness", "q11_reduced", "q13_desired_scenarios", "q14_support_needs",
+        "q4_tools", "q5_work_types", "q_office_habits", "q_rd_tools", "q_rd_domains",
+        "q8_problems", "q9_core_problem", "q10_weakness", "q11_reduced",
+        "q13_desired_scenarios", "q14_support_needs",
     ]
     for row in rows:
         r = dict(row)
@@ -189,6 +194,8 @@ def api_stats():
         "attitudes": {},
         "tools": {},
         "office_habits": {},
+        "rd_tools": {},
+        "rd_domains": {},
         "problems": {},
         "core_problems": {},
         "weaknesses": {},
@@ -220,6 +227,8 @@ def api_stats():
         multi_fields = [
             ("q4_tools", "tools"),
             ("q_office_habits", "office_habits"),
+            ("q_rd_tools", "rd_tools"),
+            ("q_rd_domains", "rd_domains"),
             ("q8_problems", "problems"),
             ("q9_core_problem", "core_problems"),
             ("q10_weakness", "weaknesses"),
@@ -246,7 +255,7 @@ def api_export():
     writer = csv.writer(output)
     writer.writerow([
         "团队", "填写人", "AI使用频率", "成员覆盖比例", "使用工具", "工作内容",
-        "办公使用方式", "帮助程度", "效率提升", "掌握程度", "遇到的问题", "核心问题",
+        "办公使用方式", "研发AI工具", "研发领域", "帮助程度", "效率提升", "掌握程度", "遇到的问题", "核心问题",
         "最大短板", "是否减少使用", "未尝试场景",
         "期望场景", "期望支持", "推广态度", "意见建议", "提交时间",
     ])
@@ -258,6 +267,7 @@ def api_export():
             r.get("q_coverage", ""),
             r.get("q4_tools", ""), r.get("q5_work_types", ""),
             r.get("q_office_habits", ""),
+            r.get("q_rd_tools", ""), r.get("q_rd_domains", ""),
             r.get("q6_help_level", ""), r.get("q7_efficiency", ""),
             r.get("q_proficiency", ""),
             r.get("q8_problems", ""), r.get("q9_core_problem", ""),
