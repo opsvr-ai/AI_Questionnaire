@@ -1,0 +1,283 @@
+<style>
+  .dash-preview { font-family: 'Fira Sans', 'Segoe UI', system-ui, sans-serif; color: #1e293b; }
+  .dash-preview .topbar {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-bottom: 20px; border-bottom: 1px solid #e2e8f0; margin-bottom: 32px;
+  }
+  .dash-preview .topbar .eyebrow {
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em;
+    color: #1e40af; font-weight: 600;
+  }
+  .dash-preview .topbar h1 {
+    font-family: 'Fira Code', monospace; font-size: 20px; font-weight: 500;
+    color: #0f172a; margin: 4px 0 0;
+  }
+  .dash-preview .topbar .meta {
+    font-size: 13px; color: #94a3b8; text-align: right;
+  }
+  .dash-preview .topbar .meta strong { color: #1e40af; font-weight: 600; }
+
+  /* Stats row — not 4 equal cards */
+  .stats-row {
+    display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 16px; margin-bottom: 32px;
+  }
+  .stat-hero {
+    border: 1px solid #e2e8f0; border-radius: 8px; padding: 24px;
+    background: #fff; display: flex; align-items: center; gap: 24px;
+  }
+  .stat-ring {
+    width: 80px; height: 80px; flex-shrink: 0;
+  }
+  .stat-ring .bg { fill: none; stroke: #f1f5f9; stroke-width: 6; }
+  .stat-ring .fg { fill: none; stroke: #1e40af; stroke-width: 6; stroke-linecap: round; }
+  .stat-hero .info h3 { font-size: 28px; font-weight: 600; color: #0f172a; margin: 0; font-family: 'Fira Code', monospace; }
+  .stat-hero .info p { font-size: 13px; color: #64748b; margin: 2px 0 0; }
+  .stat-card {
+    border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px;
+    background: #fff; display: flex; flex-direction: column; justify-content: center;
+  }
+  .stat-card .value { font-size: 26px; font-weight: 600; font-family: 'Fira Code', monospace; color: #0f172a; }
+  .stat-card .label { font-size: 13px; color: #64748b; margin-top: 2px; }
+
+  /* Charts row */
+  .charts-row {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 32px;
+  }
+  .chart-box {
+    border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px; background: #fff;
+  }
+  .chart-box h3 {
+    font-size: 13px; font-weight: 500; color: #64748b; margin: 0 0 16px;
+    text-transform: uppercase; letter-spacing: 0.04em;
+  }
+  .hbar { display: flex; flex-direction: column; gap: 10px; }
+  .hbar .row { display: flex; align-items: center; gap: 12px; }
+  .hbar .row .lbl { width: 140px; font-size: 13px; color: #475569; text-align: right; flex-shrink: 0; }
+  .hbar .row .track { flex: 1; height: 8px; background: #f1f5f9; border-radius: 4px; overflow: hidden; }
+  .hbar .row .track .fill { height: 100%; border-radius: 4px; }
+  .hbar .row .ct { font-size: 12px; color: #94a3b8; width: 30px; font-family: 'Fira Code', monospace; }
+
+  .donut-placeholder {
+    display: flex; align-items: center; justify-content: center; height: 160px;
+    gap: 24px;
+  }
+  .donut-svg { width: 120px; height: 120px; }
+  .donut-legend { font-size: 12px; }
+  .donut-legend .item { display: flex; align-items: center; gap: 6px; margin-bottom: 6px; color: #475569; }
+  .donut-legend .dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
+
+  /* Team table */
+  .table-box {
+    border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; margin-bottom: 32px; background: #fff;
+  }
+  .table-box h3 {
+    font-size: 13px; font-weight: 500; color: #64748b; margin: 0; padding: 16px 20px;
+    text-transform: uppercase; letter-spacing: 0.04em; border-bottom: 1px solid #e2e8f0;
+  }
+  .team-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .team-table th {
+    text-align: left; padding: 10px 20px; border-bottom: 1px solid #e2e8f0;
+    color: #94a3b8; font-weight: 500; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em;
+  }
+  .team-table td { padding: 12px 20px; border-bottom: 1px solid #f1f5f9; color: #334155; }
+  .team-table tr:hover td { background: #f8fafc; }
+  .badge {
+    display: inline-block; padding: 2px 8px; border-radius: 3px; font-size: 11px; font-weight: 500;
+  }
+  .badge-high { background: #fef2f2; color: #dc2626; }
+  .badge-mid { background: #fffbeb; color: #d97706; }
+  .badge-low { background: #f0fdf4; color: #16a34a; }
+
+  /* Action bar */
+  .action-bar {
+    display: flex; gap: 12px; flex-wrap: wrap;
+  }
+  .action-btn {
+    padding: 8px 18px; border-radius: 6px; font-size: 13px; font-weight: 500;
+    border: 1px solid #e2e8f0; background: #fff; color: #334155;
+    cursor: pointer; transition: all 0.15s; font-family: 'Fira Sans', system-ui, sans-serif;
+  }
+  .action-btn:hover { border-color: #cbd5e1; background: #f8fafc; }
+  .action-btn.primary { background: #1e40af; color: #fff; border-color: #1e40af; }
+  .action-btn.primary:hover { background: #1e3a8a; }
+
+  @media (max-width: 768px) {
+    .stats-row { grid-template-columns: 1fr; }
+    .charts-row { grid-template-columns: 1fr; }
+    .hbar .row .lbl { width: 100px; }
+  }
+</style>
+
+<div class="mockup">
+<div class="mockup-header">数据分析仪表盘 — 重新设计：精准、克制、信息优先</div>
+<div class="mockup-body" style="padding:32px;background:#f8fafc;">
+<div class="dash-preview">
+
+  <!-- Top bar -->
+  <div class="topbar">
+    <div>
+      <div class="eyebrow">Dashboard · 数据分析</div>
+      <h1>AI 工具使用情况</h1>
+    </div>
+    <div class="meta">
+      数据截止 <strong>2026-06-22 15:30</strong><br/>
+      已提交 <strong>8</strong> / 11 个团队
+    </div>
+  </div>
+
+  <!-- Stats row — asymmetric layout -->
+  <div class="stats-row">
+    <div class="stat-hero">
+      <svg class="stat-ring" viewBox="0 0 80 80">
+        <circle class="bg" cx="40" cy="40" r="34"/>
+        <circle class="fg" cx="40" cy="40" r="34"
+          stroke-dasharray="213.6" stroke-dashoffset="58.3"
+          transform="rotate(-90 40 40)"/>
+        <text x="40" y="37" text-anchor="middle" font-size="18" font-weight="600" fill="#0f172a" font-family="'Fira Code',monospace">73%</text>
+        <text x="40" y="53" text-anchor="middle" font-size="9" fill="#94a3b8">完成率</text>
+      </svg>
+      <div class="info">
+        <h3>8 / 11</h3>
+        <p>已完成提交的团队</p>
+        <p style="font-size:12px;color:#94a3b8;margin-top:4px;">剩余：数据库运维组、生产调度团队、中间件运维团队</p>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="value" style="color:#d97706;">82%</div>
+      <div class="label">认为有效 / 极大提升</div>
+    </div>
+    <div class="stat-card">
+      <div class="value">4 类</div>
+      <div class="label">主流 AI 工具</div>
+    </div>
+  </div>
+
+  <!-- Charts row -->
+  <div class="charts-row">
+    <div class="chart-box">
+      <h3>使用频率分布</h3>
+      <div class="hbar">
+        <div class="row">
+          <span class="lbl">频繁使用（每日）</span>
+          <div class="track"><div class="fill" style="width:73%;background:#1e40af;"></div></div>
+          <span class="ct">8</span>
+        </div>
+        <div class="row">
+          <span class="lbl">偶尔使用（每周）</span>
+          <div class="track"><div class="fill" style="width:18%;background:#3b82f6;"></div></div>
+          <span class="ct">2</span>
+        </div>
+        <div class="row">
+          <span class="lbl">极少使用（每月）</span>
+          <div class="track"><div class="fill" style="width:9%;background:#93c5fd;"></div></div>
+          <span class="ct">1</span>
+        </div>
+      </div>
+    </div>
+    <div class="chart-box">
+      <h3>遇到的 AI 使用问题</h3>
+      <div class="hbar">
+        <div class="row">
+          <span class="lbl">专业性不足</span>
+          <div class="track"><div class="fill" style="width:73%;background:#dc2626;"></div></div>
+          <span class="ct">8</span>
+        </div>
+        <div class="row">
+          <span class="lbl">内容准确性不足</span>
+          <div class="track"><div class="fill" style="width:64%;background:#d97706;"></div></div>
+          <span class="ct">7</span>
+        </div>
+        <div class="row">
+          <span class="lbl">信息安全顾虑</span>
+          <div class="track"><div class="fill" style="width:55%;background:#1e40af;"></div></div>
+          <span class="ct">6</span>
+        </div>
+        <div class="row">
+          <span class="lbl">响应/输出速度慢</span>
+          <div class="track"><div class="fill" style="width:55%;background:#8b5cf6;"></div></div>
+          <span class="ct">6</span>
+        </div>
+        <div class="row">
+          <span class="lbl">操作门槛高</span>
+          <div class="track"><div class="fill" style="width:45%;background:#06b6d4;"></div></div>
+          <span class="ct">5</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Team comparison table -->
+  <div class="table-box">
+    <h3>团队对比视图</h3>
+    <div style="overflow-x:auto;">
+    <table class="team-table">
+      <thead>
+        <tr>
+          <th>团队</th>
+          <th>使用频率</th>
+          <th>工具数量</th>
+          <th>帮助程度</th>
+          <th>核心问题</th>
+          <th>期望支持</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="font-weight:500;">托管系统运维团队</td>
+          <td>频繁</td>
+          <td>1 个</td>
+          <td>有效提升</td>
+          <td><span class="badge badge-high">操作门槛</span></td>
+          <td>工具推荐 / 培训</td>
+        </tr>
+        <tr>
+          <td style="font-weight:500;">数据库运维组</td>
+          <td>频繁</td>
+          <td>4 个</td>
+          <td>极大提升</td>
+          <td><span class="badge badge-mid">数据安全</span></td>
+          <td>内部分享平台</td>
+        </tr>
+        <tr>
+          <td style="font-weight:500;">商务管理团队</td>
+          <td>频繁</td>
+          <td>3 个</td>
+          <td>有效提升</td>
+          <td><span class="badge badge-high">专业能力不足</span></td>
+          <td>工具推荐 / 培训</td>
+        </tr>
+        <tr>
+          <td style="font-weight:500;">运维平台支撑团队</td>
+          <td>频繁</td>
+          <td>4 个</td>
+          <td>极大提升</td>
+          <td><span class="badge badge-mid">响应速度慢</span></td>
+          <td>培训</td>
+        </tr>
+        <tr>
+          <td style="font-weight:500;">生产调度团队</td>
+          <td>偶尔</td>
+          <td>2 个</td>
+          <td>一般</td>
+          <td><span class="badge badge-high">安装门槛</span></td>
+          <td>工具推荐 / 平台</td>
+        </tr>
+        <tr style="color:#94a3b8;">
+          <td style="font-weight:500;">… 等 6 个团队</td>
+          <td colspan="5">滚动查看完整数据</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <!-- Actions -->
+  <div class="action-bar">
+    <button class="action-btn primary">导出 Excel 报告</button>
+    <button class="action-btn">导出 PDF</button>
+    <button class="action-btn">查看原始数据</button>
+  </div>
+
+</div>
+</div>
+</div>

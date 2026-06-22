@@ -1,1 +1,4 @@
 survey.db
+__pycache__/
+survey.db*
+*.pyc

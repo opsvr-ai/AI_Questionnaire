@@ -1,0 +1,111 @@
+<h2>🏷️ 自定义选项输入组件设计</h2>
+<p class="subtitle">适用于所有"可多选+补充"题型 — 用户输入后回车形成可选标签</p>
+
+<div class="section">
+  <h3>交互流程演示</h3>
+  <div class="mockup">
+    <div class="mockup-header">以 Q3「团队使用的AI工具」为例</div>
+    <div class="mockup-body" style="padding:20px;">
+
+      <p><strong>3. 团队目前使用的AI工具有哪些？（可多选）</strong></p>
+
+      <!-- 预设选项 -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;">
+        <label style="display:flex;align-items:center;gap:8px;padding:10px;border:1px solid #ddd;border-radius:8px;cursor:pointer;background:#fff;">
+          <input type="checkbox" checked style="accent-color:#667eea;"> 🤖 AI对话（通用AI对话）
+        </label>
+        <label style="display:flex;align-items:center;gap:8px;padding:10px;border:1px solid #ddd;border-radius:8px;cursor:pointer;background:#fff;">
+          <input type="checkbox" checked style="accent-color:#667eea;"> 💻 Claude Code
+        </label>
+        <label style="display:flex;align-items:center;gap:8px;padding:10px;border:1px solid #ddd;border-radius:8px;cursor:pointer;background:#fff;">
+          <input type="checkbox" style="accent-color:#667eea;"> 🧠 Hermes-Agent
+        </label>
+        <label style="display:flex;align-items:center;gap:8px;padding:10px;border:1px solid #ddd;border-radius:8px;cursor:pointer;background:#fff;">
+          <input type="checkbox" style="accent-color:#667eea;"> 🔧 OpenClaw
+        </label>
+        <label style="display:flex;align-items:center;gap:8px;padding:10px;border:1px solid #ddd;border-radius:8px;cursor:pointer;background:#fff;">
+          <input type="checkbox" style="accent-color:#667eea;"> 📝 通义灵码
+        </label>
+        <label style="display:flex;align-items:center;gap:8px;padding:10px;border:1px solid #ddd;border-radius:8px;cursor:pointer;background:#fff;">
+          <input type="checkbox" style="accent-color:#667eea;"> ⚡ OpenCode
+        </label>
+      </div>
+
+      <!-- 自定义标签输入区 -->
+      <div style="background:#f8f9fa;border:2px dashed #667eea;border-radius:12px;padding:16px;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+          <span style="font-size:0.85em;color:#666;">💡 输入其他工具名，按 <kbd style="background:#667eea;color:#fff;padding:2px 8px;border-radius:4px;">Enter</kbd> 添加自定义选项：</span>
+        </div>
+
+        <!-- 已添加的自定义标签 -->
+        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;">
+          <div style="display:flex;align-items:center;gap:6px;background:#e8f5e9;border:1px solid #4caf50;border-radius:20px;padding:6px 14px;">
+            <input type="checkbox" checked style="accent-color:#4caf50;">
+            <span style="font-size:0.9em;">openclaw</span>
+            <span style="cursor:pointer;color:#999;margin-left:4px;" title="删除此选项">✕</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;background:#fff3e0;border:1px solid #ff9800;border-radius:20px;padding:6px 14px;">
+            <input type="checkbox" style="accent-color:#ff9800;">
+            <span style="font-size:0.9em;">gpt-code</span>
+            <span style="cursor:pointer;color:#999;margin-left:4px;" title="删除此选项">✕</span>
+          </div>
+        </div>
+
+        <!-- 输入框 -->
+        <div style="display:flex;align-items:center;gap:8px;background:#fff;border:1px solid #ccc;border-radius:8px;padding:8px 12px;">
+          <span style="color:#999;">➕</span>
+          <input class="mock-input" placeholder="输入工具名称，回车添加..." style="border:none;outline:none;flex:1;font-size:0.95em;">
+          <span style="font-size:0.75em;color:#999;">Enter ↵</span>
+        </div>
+        <p style="margin:8px 0 0;font-size:0.8em;color:#999;">添加后的选项自动处于选中状态，可取消勾选或点击 ✕ 删除</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>🔧 组件行为规则</h3>
+  <div class="cards">
+    <div class="card">
+      <div class="card-body">
+        <h3>⌨️ 键盘交互</h3>
+        <p>• <strong>Enter</strong>：添加标签并自动选中</p>
+        <p>• <strong>Backspace</strong>：输入为空时删除最后一个标签</p>
+        <p>• <strong>Escape</strong>：清空输入框</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <h3>🖱️ 鼠标交互</h3>
+        <p>• 点击标签的 ✕ 删除该标签</p>
+        <p>• 点击标签勾选/取消勾选</p>
+        <p>• 标签作为独立选项参与统计</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <h3>📊 数据存储</h3>
+        <p>• 预设选项存为固定枚举值</p>
+        <p>• 自定义标签存为自由文本</p>
+        <p>• 分析时合并同类标签（去空格、统一大小写）</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>📋 需要此组件的题目</h3>
+  <table style="width:100%;border-collapse:collapse;font-size:0.9em;">
+    <tr style="background:#f5f5f5;">
+      <th style="padding:8px;text-align:left;border-bottom:2px solid #ddd;">题号</th>
+      <th style="padding:8px;text-align:left;border-bottom:2px solid #ddd;">题目</th>
+    </tr>
+    <tr><td style="padding:8px;border-bottom:1px solid #eee;">Q3</td><td style="padding:8px;border-bottom:1px solid #eee;">团队使用的AI工具</td></tr>
+    <tr><td style="padding:8px;border-bottom:1px solid #eee;">Q4</td><td style="padding:8px;border-bottom:1px solid #eee;">AI辅助的工作内容</td></tr>
+    <tr><td style="padding:8px;border-bottom:1px solid #eee;">Q7</td><td style="padding:8px;border-bottom:1px solid #eee;">遇到的AI使用问题</td></tr>
+    <tr><td style="padding:8px;border-bottom:1px solid #eee;">Q8</td><td style="padding:8px;border-bottom:1px solid #eee;">遇到的最大核心问题</td></tr>
+    <tr><td style="padding:8px;border-bottom:1px solid #eee;">Q9</td><td style="padding:8px;border-bottom:1px solid #eee;">AI输出内容最大短板</td></tr>
+    <tr><td style="padding:8px;border-bottom:1px solid #eee;">Q12</td><td style="padding:8px;border-bottom:1px solid #eee;">最希望AI赋能的场景</td></tr>
+    <tr><td style="padding:8px;">Q13</td><td style="padding:8px;">希望部门提供的支持</td></tr>
+  </table>
+</div>

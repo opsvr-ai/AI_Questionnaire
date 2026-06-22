@@ -1,0 +1,168 @@
+<h2>🏗️ 推荐技术方案</h2>
+<p class="subtitle">Python Flask + SQLite + 现代前端 | 内网单机部署</p>
+
+<div class="section">
+  <h3>📐 系统架构</h3>
+  <div class="mockup">
+    <div class="mockup-header">整体架构：3层结构，单文件部署</div>
+    <div class="mockup-body" style="padding:20px;">
+      <div style="display:flex;flex-direction:column;gap:16px;align-items:center;">
+        <div style="background:#e3f2fd;border:2px solid #1976d2;border-radius:8px;padding:12px 24px;width:80%;text-align:center;">
+          <strong>🖥️ 浏览器端</strong><br/>
+          <span style="font-size:0.85em;color:#555;">表单填报页 + 数据分析仪表盘<br/>纯 HTML/CSS/JS，响应式设计</span>
+        </div>
+        <div style="font-size:1.5em;">⬇️ HTTP REST API ⬆️</div>
+        <div style="background:#fff3e0;border:2px solid #e65100;border-radius:8px;padding:12px 24px;width:80%;text-align:center;">
+          <strong>🐍 Flask 后端</strong><br/>
+          <span style="font-size:0.85em;color:#555;">API路由 / 数据验证 / 报告导出<br/>app.py 单文件，约200行</span>
+        </div>
+        <div style="font-size:1.5em;">⬇️ SQL ⬆️</div>
+        <div style="background:#e8f5e9;border:2px solid #2e7d32;border-radius:8px;padding:12px 24px;width:80%;text-align:center;">
+          <strong>🗄️ SQLite 数据库</strong><br/>
+          <span style="font-size:0.85em;color:#555;">survey.db 单文件<br/>自动创建表结构，事务写入保证健壮性</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>📄 页面结构</h3>
+  <div class="cards">
+    <div class="card">
+      <div class="card-body">
+        <h3>📝 填报页面</h3>
+        <p>/ （首页）</p>
+        <p>• 组长选择团队 → 填写问卷</p>
+        <p>• 分步骤表单（4-5步）</p>
+        <p>• 进度条 + 实时校验</p>
+        <p>• 提交前预览确认</p>
+        <p>• 提交成功 + 防重复提交</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <h3>📊 分析页面</h3>
+        <p>/dashboard</p>
+        <p>• 总览仪表盘（核心指标卡片）</p>
+        <p>• 各题统计图表（柱状/饼图）</p>
+        <p>• 团队对比视图</p>
+        <p>• 原始数据表格</p>
+        <p>• 一键导出 Excel/PDF</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <h3>🔧 管理功能</h3>
+        <p>• 数据持久化 SQLite</p>
+        <p>• 管理员可查看/删除/导出</p>
+        <p>• 提交记录带时间戳</p>
+        <p>• 支持覆盖提交（同团队）</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>🔄 重构后的问卷结构（草案）</h3>
+  <div class="mockup">
+    <div class="mockup-header">从16题精简为4个板块，聚焦「组」维度</div>
+    <div class="mockup-body" style="padding:16px;">
+      <table style="width:100%;border-collapse:collapse;font-size:0.9em;">
+        <tr style="background:#f5f5f5;">
+          <th style="padding:8px;text-align:left;border-bottom:2px solid #ddd;">板块</th>
+          <th style="padding:8px;text-align:left;border-bottom:2px solid #ddd;">问题</th>
+          <th style="padding:8px;text-align:left;border-bottom:2px solid #ddd;">类型</th>
+        </tr>
+        <tr>
+          <td style="padding:8px;border-bottom:1px solid #eee;" rowspan="3"><strong>一、基础画像</strong></td>
+          <td style="padding:8px;border-bottom:1px solid #eee;">1. 所属团队</td>
+          <td style="padding:8px;border-bottom:1px solid #eee;">下拉单选</td>
+        </tr>
+        <tr>
+          <td style="padding:8px;border-bottom:1px solid #eee;">2. 团队AI使用频率</td>
+          <td style="padding:8px;border-bottom:1px solid #eee;">单选</td>
+        </tr>
+        <tr>
+          <td style="padding:8px;border-bottom:1px solid #eee;">3. 正在使用的AI工具</td>
+          <td style="padding:8px;border-bottom:1px solid #eee;">多选+补充</td>
+        </tr>
+        <tr>
+          <td style="padding:8px;border-bottom:1px solid #eee;" rowspan="4"><strong>二、应用现状</strong></td>
+          <td style="padding:8px;border-bottom:1px solid #eee;">4. AI辅助的工作内容</td>
+          <td style="padding:8px;border-bottom:1px solid #eee;">多选+补充</td>
+        </tr>
+        <tr>
+          <td style="padding:8px;border-bottom:1px solid #eee;">5. AI对工作的帮助程度</td>
+          <td style="padding:8px;border-bottom:1px solid #eee;">单选</td>
+        </tr>
+        <tr>
+          <td style="padding:8px;border-bottom:1px solid #eee;">6. 工作效率提升幅度</td>
+          <td style="padding:8px;border-bottom:1px solid #eee;">单选</td>
+        </tr>
+        <tr>
+          <td style="padding:8px;border-bottom:1px solid #eee;">7. 工作中遇到的AI使用问题</td>
+          <td style="padding:8px;border-bottom:1px solid #eee;">多选+补充</td>
+        </tr>
+        <tr>
+          <td style="padding:8px;border-bottom:1px solid #eee;" rowspan="4"><strong>三、核心痛点</strong></td>
+          <td style="padding:8px;border-bottom:1px solid #eee;">8. 遇到的最大核心问题</td>
+          <td style="padding:8px;border-bottom:1px solid #eee;">单选+补充</td>
+        </tr>
+        <tr>
+          <td style="padding:8px;border-bottom:1px solid #eee;">9. AI输出内容最大短板</td>
+          <td style="padding:8px;border-bottom:1px solid #eee;">单选+补充</td>
+        </tr>
+        <tr>
+          <td style="padding:8px;border-bottom:1px solid #eee;">10. 是否主动减少/放弃使用</td>
+          <td style="padding:8px;border-bottom:1px solid #eee;">多选+补充</td>
+        </tr>
+        <tr>
+          <td style="padding:8px;border-bottom:1px solid #eee;">11. 未尝试但有需求的AI场景</td>
+          <td style="padding:8px;border-bottom:1px solid #eee;">文本</td>
+        </tr>
+        <tr>
+          <td style="padding:8px;" rowspan="4"><strong>四、期望与建议</strong></td>
+          <td style="padding:8px;border-bottom:1px solid #eee;">12. 最希望AI赋能的场景</td>
+          <td style="padding:8px;border-bottom:1px solid #eee;">多选+补充</td>
+        </tr>
+        <tr>
+          <td style="padding:8px;border-bottom:1px solid #eee;">13. 希望部门提供的支持</td>
+          <td style="padding:8px;border-bottom:1px solid #eee;">多选+补充</td>
+        </tr>
+        <tr>
+          <td style="padding:8px;border-bottom:1px solid #eee;">14. 对部门AI推广的态度</td>
+          <td style="padding:8px;border-bottom:1px solid #eee;">单选</td>
+        </tr>
+        <tr>
+          <td style="padding:8px;">15. 宝贵意见与建议</td>
+          <td style="padding:8px;">长文本</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>🎯 这个方案的特点</h3>
+  <div class="pros-cons">
+    <div class="pros">
+      <h4>✅ 优势</h4>
+      <ul>
+        <li><strong>部署简单</strong>：pip install flask → python app.py 即可</li>
+        <li><strong>数据健壮</strong>：SQLite 事务写入，断电不丢数据</li>
+        <li><strong>零依赖前端</strong>：纯 HTML/CSS/JS，无 npm/node_modules</li>
+        <li><strong>美观现代</strong>：响应式设计，移动端也可填写</li>
+        <li><strong>单文件数据库</strong>：survey.db 可直接拷贝备份</li>
+      </ul>
+    </div>
+    <div class="cons">
+      <h4>⚠️ 需要注意</h4>
+      <ul>
+        <li>Flask 内置服务器适合内网小规模使用</li>
+        <li>需确保部署机器的 Python 环境可用</li>
+        <li>并发写入 SQLite 有锁限制（但11个团队串行填写完全够用）</li>
+      </ul>
+    </div>
+  </div>
+</div>

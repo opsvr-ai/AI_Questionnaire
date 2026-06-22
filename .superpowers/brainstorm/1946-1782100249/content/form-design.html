@@ -1,0 +1,113 @@
+<h2>📝 填报页面设计</h2>
+<p class="subtitle">组长访问首页 → 选择团队 → 分步填写 → 预览确认 → 提交</p>
+
+<div class="section">
+  <h3>Step 1: 团队选择 + 填写人信息</h3>
+  <div class="mockup">
+    <div class="mockup-header">页面顶部</div>
+    <div class="mockup-body" style="padding:20px;">
+      <div style="background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:#fff;padding:24px;border-radius:12px;margin-bottom:20px;">
+        <h2 style="margin:0;color:#fff;">🤖 部门AI工具使用情况调研</h2>
+        <p style="margin:8px 0 0;opacity:0.9;">请各组组长汇总本组情况后如实填写 · 每个团队提交一份</p>
+      </div>
+      <div style="display:flex;gap:16px;flex-wrap:wrap;">
+        <div style="flex:1;min-width:200px;">
+          <div class="label">选择所属团队 *</div>
+          <select class="mock-input" style="width:100%;padding:10px;">
+            <option>请选择团队...</option>
+            <option>托管系统运维团队</option>
+            <option>数据库运维组</option>
+            <option>生产调度团队</option>
+            <option>...</option>
+          </select>
+        </div>
+        <div style="flex:1;min-width:200px;">
+          <div class="label">填写人姓名 *</div>
+          <input class="mock-input" placeholder="组长姓名" style="width:100%;padding:10px;">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>Step 2-5: 分步表单（4个板块）</h3>
+  <div class="mockup">
+    <div class="mockup-header">进度条 + 当前板块高亮</div>
+    <div class="mockup-body" style="padding:20px;">
+      <div style="display:flex;gap:8px;margin-bottom:24px;">
+        <div style="flex:1;background:#667eea;color:#fff;padding:8px;border-radius:6px;text-align:center;font-size:0.8em;">① 基础画像</div>
+        <div style="flex:1;background:#e0e0e0;padding:8px;border-radius:6px;text-align:center;font-size:0.8em;">② 应用现状</div>
+        <div style="flex:1;background:#e0e0e0;padding:8px;border-radius:6px;text-align:center;font-size:0.8em;">③ 核心痛点</div>
+        <div style="flex:1;background:#e0e0e0;padding:8px;border-radius:6px;text-align:center;font-size:0.8em;">④ 期望建议</div>
+      </div>
+      <div style="border:1px solid #e0e0e0;border-radius:8px;padding:20px;">
+        <h3 style="margin-top:0;">📋 一、基础画像</h3>
+        <div style="margin-bottom:16px;">
+          <p><strong>2. 日常工作中，团队使用AI工具的频率是？</strong></p>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <label style="display:flex;align-items:center;gap:8px;padding:8px;border:1px solid #ddd;border-radius:6px;cursor:pointer;">
+              <input type="radio" name="q2"> 频繁使用（每日都会用到）
+            </label>
+            <label style="display:flex;align-items:center;gap:8px;padding:8px;border:1px solid #ddd;border-radius:6px;cursor:pointer;">
+              <input type="radio" name="q2"> 经常使用（每周多次）
+            </label>
+            <label style="display:flex;align-items:center;gap:8px;padding:8px;border:1px solid #ddd;border-radius:6px;cursor:pointer;">
+              <input type="radio" name="q2"> 偶尔使用（每周1-3次）
+            </label>
+            <label style="display:flex;align-items:center;gap:8px;padding:8px;border:1px solid #ddd;border-radius:6px;cursor:pointer;">
+              <input type="radio" name="q2"> 极少使用（每月偶尔用）
+            </label>
+            <label style="display:flex;align-items:center;gap:8px;padding:8px;border:1px solid #ddd;border-radius:6px;cursor:pointer;">
+              <input type="radio" name="q2"> 从不使用
+            </label>
+          </div>
+        </div>
+        <div style="margin-bottom:16px;">
+          <p><strong>3. 团队目前使用的AI工具有哪些？（可多选）</strong></p>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+            <label style="display:flex;align-items:center;gap:8px;padding:8px;border:1px solid #ddd;border-radius:6px;cursor:pointer;">
+              <input type="checkbox"> AI对话（通用AI对话）
+            </label>
+            <label style="display:flex;align-items:center;gap:8px;padding:8px;border:1px solid #ddd;border-radius:6px;cursor:pointer;">
+              <input type="checkbox"> Claude Code（终端编码Agent）
+            </label>
+            <label style="display:flex;align-items:center;gap:8px;padding:8px;border:1px solid #ddd;border-radius:6px;cursor:pointer;">
+              <input type="checkbox"> Hermes-Agent（自进化通用智能体）
+            </label>
+            <label style="display:flex;align-items:center;gap:8px;padding:8px;border:1px solid #ddd;border-radius:6px;cursor:pointer;">
+              <input type="checkbox"> OpenClaw（AI工作流自动化助手）
+            </label>
+            <label style="display:flex;align-items:center;gap:8px;padding:8px;border:1px solid #ddd;border-radius:6px;cursor:pointer;">
+              <input type="checkbox"> 通义灵码（智能编码助手）
+            </label>
+            <label style="display:flex;align-items:center;gap:8px;padding:8px;border:1px solid #ddd;border-radius:6px;cursor:pointer;">
+              <input type="checkbox"> OpenCode（终端编码Agent）
+            </label>
+          </div>
+          <input class="mock-input" placeholder="其他工具（请补充）" style="width:100%;margin-top:8px;padding:8px;">
+        </div>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-top:16px;">
+        <button class="mock-button" style="opacity:0.5;">← 上一步</button>
+        <button class="mock-button" style="background:#667eea;color:#fff;">下一步 →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>Step 6: 预览确认 + 提交</h3>
+  <div class="mockup">
+    <div class="mockup-header">提交前预览确认</div>
+    <div class="mockup-body" style="padding:20px;">
+      <div style="background:#fff3e0;border:1px solid #ff9800;border-radius:8px;padding:16px;margin-bottom:16px;">
+        <strong>⚠️ 提交确认</strong>
+        <p style="margin:8px 0 0;">请仔细核对以上信息，提交后不可修改。如需修改请联系管理员。</p>
+      </div>
+      <button class="mock-button" style="background:#4caf50;color:#fff;width:100%;padding:14px;font-size:1.1em;">
+        ✅ 确认提交
+      </button>
+    </div>
+  </div>
+</div>

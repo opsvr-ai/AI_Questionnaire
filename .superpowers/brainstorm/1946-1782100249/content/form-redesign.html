@@ -1,0 +1,242 @@
+<style>
+  /* Minimal reset for the mockup */
+  .mockup-body * { box-sizing: border-box; }
+  .design-preview { font-family: 'Fira Sans', 'Segoe UI', system-ui, sans-serif; color: #1e293b; }
+  .design-preview .header {
+    border-bottom: 1px solid #dbeafe; padding: 32px 0 24px; margin-bottom: 40px;
+  }
+  .design-preview .header .eyebrow {
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em;
+    color: #1e40af; font-weight: 600; margin-bottom: 8px;
+  }
+  .design-preview .header h1 {
+    font-family: 'Fira Code', 'Cascadia Code', monospace;
+    font-size: 22px; font-weight: 500; color: #0f172a; margin: 0;
+  }
+  .design-preview .header p {
+    font-size: 14px; color: #64748b; margin: 6px 0 0; max-width: 560px; line-height: 1.6;
+  }
+  .step-progress {
+    display: flex; gap: 0; margin-bottom: 40px;
+  }
+  .step-progress .step {
+    flex: 1; display: flex; align-items: center; gap: 10px; padding: 0;
+    position: relative;
+  }
+  .step-progress .step::after {
+    content: ''; flex: 1; height: 1px; background: #e2e8f0; margin-left: 10px;
+  }
+  .step-progress .step:last-child::after { display: none; }
+  .step-progress .step .num {
+    width: 28px; height: 28px; border-radius: 50%;
+    border: 1px solid #cbd5e1; display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 500; color: #94a3b8; flex-shrink: 0;
+    font-family: 'Fira Code', monospace;
+  }
+  .step-progress .step.active .num {
+    background: #1e40af; border-color: #1e40af; color: #fff;
+  }
+  .step-progress .step.done .num {
+    background: #f0fdf4; border-color: #22c55e; color: #16a34a;
+  }
+  .step-progress .step .label {
+    font-size: 13px; color: #94a3b8; font-weight: 400; white-space: nowrap;
+  }
+  .step-progress .step.active .label { color: #1e40af; font-weight: 500; }
+  .step-progress .step.done .label { color: #16a34a; }
+
+  .form-section {
+    border-left: 2px solid #dbeafe; padding-left: 24px; margin-bottom: 36px;
+  }
+  .form-section.active { border-left-color: #1e40af; }
+  .form-section h3 {
+    font-family: 'Fira Code', monospace; font-size: 14px; font-weight: 500;
+    color: #1e40af; margin: 0 0 6px; text-transform: uppercase; letter-spacing: 0.04em;
+  }
+  .form-section .q-title {
+    font-size: 15px; font-weight: 500; color: #0f172a; margin: 0 0 16px; line-height: 1.5;
+  }
+
+  .radio-group { display: flex; flex-direction: column; gap: 6px; }
+  .radio-item {
+    display: flex; align-items: center; gap: 10px; padding: 10px 14px;
+    border: 1px solid #e2e8f0; border-radius: 6px; cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+    font-size: 14px; color: #334155;
+  }
+  .radio-item:hover { border-color: #93c5fd; background: #f8fafc; }
+  .radio-item.selected { border-color: #1e40af; background: #eff6ff; }
+  .radio-item input[type="radio"] { accent-color: #1e40af; margin: 0; }
+
+  .check-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+  }
+  .check-item {
+    display: flex; align-items: center; gap: 10px; padding: 10px 14px;
+    border: 1px solid #e2e8f0; border-radius: 6px; cursor: pointer;
+    font-size: 14px; color: #334155; transition: border-color 0.15s, background 0.15s;
+  }
+  .check-item:hover { border-color: #93c5fd; background: #f8fafc; }
+  .check-item.checked { border-color: #1e40af; background: #eff6ff; }
+  .check-item input[type="checkbox"] { accent-color: #1e40af; margin: 0; }
+
+  .tag-area {
+    border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px;
+    background: #fafbfc; margin-top: 12px;
+  }
+  .tag-row {
+    display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px;
+    min-height: 0;
+  }
+  .tag {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 5px 12px; border-radius: 4px; font-size: 13px;
+    background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af;
+    font-family: 'Fira Code', monospace;
+  }
+  .tag .remove { cursor: pointer; color: #94a3b8; font-size: 14px; line-height: 1; }
+  .tag .remove:hover { color: #dc2626; }
+  .tag-input-row {
+    display: flex; align-items: center; gap: 8px;
+    border: 1px dashed #cbd5e1; border-radius: 6px; padding: 6px 12px;
+    background: #fff;
+  }
+  .tag-input-row input {
+    border: none; outline: none; flex: 1; font-size: 13px; color: #334155;
+    font-family: 'Fira Code', monospace;
+  }
+  .tag-input-row input::placeholder { color: #94a3b8; }
+  .tag-hint { font-size: 11px; color: #94a3b8; }
+
+  .nav-btns {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 40px; padding-top: 24px; border-top: 1px solid #e2e8f0;
+  }
+  .btn {
+    padding: 10px 24px; border-radius: 6px; font-size: 14px; font-weight: 500;
+    cursor: pointer; transition: all 0.15s; border: none;
+    font-family: 'Fira Sans', system-ui, sans-serif;
+  }
+  .btn-prev {
+    background: #fff; color: #64748b; border: 1px solid #e2e8f0;
+  }
+  .btn-prev:hover { background: #f8fafc; color: #334155; }
+  .btn-next {
+    background: #1e40af; color: #fff;
+  }
+  .btn-next:hover { background: #1e3a8a; }
+
+  .team-select {
+    width: 100%; padding: 10px 14px; border: 1px solid #e2e8f0; border-radius: 6px;
+    font-size: 14px; color: #334155; background: #fff; cursor: pointer;
+    font-family: 'Fira Sans', system-ui, sans-serif;
+  }
+  .team-select:focus { outline: none; border-color: #1e40af; box-shadow: 0 0 0 3px rgba(30,64,175,0.1); }
+
+  @media (max-width: 640px) {
+    .check-grid { grid-template-columns: 1fr; }
+    .step-progress .step .label { display: none; }
+    .step-progress .step::after { margin-left: 4px; }
+  }
+</style>
+
+<div class="mockup">
+<div class="mockup-header">表单页 — 重新设计：克制、精准、技术感</div>
+<div class="mockup-body" style="padding:32px;background:#f8fafc;">
+<div class="design-preview">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="eyebrow">Internal Survey · 部门内部调研</div>
+    <h1>AI 工具使用情况调研</h1>
+    <p>请各组组长汇总本组实际情况后如实填写。每个团队限提交一份，提交前请仔细确认信息准确性。</p>
+  </div>
+
+  <!-- Progress -->
+  <div class="step-progress">
+    <div class="step active">
+      <div class="num">1</div>
+      <span class="label">基础画像</span>
+    </div>
+    <div class="step">
+      <div class="num">2</div>
+      <span class="label">应用现状</span>
+    </div>
+    <div class="step">
+      <div class="num">3</div>
+      <span class="label">核心痛点</span>
+    </div>
+    <div class="step">
+      <div class="num">4</div>
+      <span class="label">期望建议</span>
+    </div>
+  </div>
+
+  <!-- Section 1: Team Selection -->
+  <div class="form-section active" style="margin-bottom:36px;">
+    <h3>01 · 团队信息</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+      <div>
+        <label style="font-size:13px;color:#64748b;display:block;margin-bottom:6px;">所属团队</label>
+        <select class="team-select">
+          <option>请选择团队…</option>
+          <option>托管系统运维团队</option>
+          <option>数据库运维组</option>
+          <option>生产调度团队</option>
+          <option>…</option>
+        </select>
+      </div>
+      <div>
+        <label style="font-size:13px;color:#64748b;display:block;margin-bottom:6px;">填写人</label>
+        <input class="team-select" placeholder="组长姓名" style="width:100%;">
+      </div>
+    </div>
+  </div>
+
+  <!-- Question 2: Frequency -->
+  <div class="form-section active">
+    <h3>02 · 使用频率</h3>
+    <p class="q-title">日常工作中，团队使用 AI 工具的频率是？</p>
+    <div class="radio-group">
+      <label class="radio-item selected"><input type="radio" name="q2" checked> 频繁使用 — 每日都会用到</label>
+      <label class="radio-item"><input type="radio" name="q2"> 经常使用 — 每周多次</label>
+      <label class="radio-item"><input type="radio" name="q2"> 偶尔使用 — 每周 1-3 次</label>
+      <label class="radio-item"><input type="radio" name="q2"> 极少使用 — 每月偶尔用</label>
+      <label class="radio-item"><input type="radio" name="q2"> 从不使用</label>
+    </div>
+  </div>
+
+  <!-- Question 3: Tools (with tag input) -->
+  <div class="form-section active">
+    <h3>03 · 使用工具</h3>
+    <p class="q-title">团队目前使用的 AI 工具有哪些？</p>
+    <div class="check-grid">
+      <label class="check-item checked"><input type="checkbox" checked> AI 对话（通用AI对话）</label>
+      <label class="check-item checked"><input type="checkbox" checked> Claude Code</label>
+      <label class="check-item"><input type="checkbox"> Hermes-Agent</label>
+      <label class="check-item"><input type="checkbox"> OpenClaw</label>
+      <label class="check-item"><input type="checkbox"> 通义灵码</label>
+      <label class="check-item"><input type="checkbox"> OpenCode</label>
+    </div>
+    <div class="tag-area">
+      <div class="tag-row">
+        <span class="tag">cursor <span class="remove">×</span></span>
+        <span class="tag">copilot <span class="remove">×</span></span>
+      </div>
+      <div class="tag-input-row">
+        <input placeholder="输入工具名称，Enter 添加…">
+        <span class="tag-hint">Enter ↵</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <div class="nav-btns">
+    <button class="btn btn-prev">← 上一步</button>
+    <span style="font-size:13px;color:#94a3b8;">第 1 步，共 4 步</span>
+    <button class="btn btn-next">下一步 →</button>
+  </div>
+
+</div>
+</div>
+</div>

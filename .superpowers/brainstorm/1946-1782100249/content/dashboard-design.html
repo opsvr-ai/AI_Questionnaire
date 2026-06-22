@@ -1,0 +1,147 @@
+<h2>📊 数据分析仪表盘设计</h2>
+<p class="subtitle">访问 /dashboard 查看所有团队提交后的统计结果</p>
+
+<div class="section">
+  <h3>区域一：总览指标卡片</h3>
+  <div class="mockup">
+    <div class="mockup-header">页面顶部 — 一目了然的核心数据</div>
+    <div class="mockup-body" style="padding:20px;">
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;">
+        <div style="background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;padding:20px;border-radius:12px;text-align:center;">
+          <div style="font-size:2em;font-weight:bold;">8/11</div>
+          <div style="font-size:0.85em;opacity:0.9;">已提交团队</div>
+        </div>
+        <div style="background:linear-gradient(135deg,#f093fb,#f5576c);color:#fff;padding:20px;border-radius:12px;text-align:center;">
+          <div style="font-size:2em;font-weight:bold;">73%</div>
+          <div style="font-size:0.85em;opacity:0.9;">频繁使用AI</div>
+        </div>
+        <div style="background:linear-gradient(135deg,#4facfe,#00f2fe);color:#fff;padding:20px;border-radius:12px;text-align:center;">
+          <div style="font-size:2em;font-weight:bold;">4类</div>
+          <div style="font-size:0.85em;opacity:0.9;">主流AI工具</div>
+        </div>
+        <div style="background:linear-gradient(135deg,#43e97b,#38f9d7);color:#fff;padding:20px;border-radius:12px;text-align:center;">
+          <div style="font-size:2em;font-weight:bold;">82%</div>
+          <div style="font-size:0.85em;opacity:0.9;">认为有效/极大提升</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>区域二：图表分析区（双列布局）</h3>
+  <div class="mockup">
+    <div class="mockup-header">核心问题可视化 — 柱状图 + 饼图组合</div>
+    <div class="mockup-body" style="padding:20px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+        <!-- 使用频率 -->
+        <div style="border:1px solid #eee;border-radius:12px;padding:16px;">
+          <h4 style="margin:0 0 12px;">📊 AI使用频率分布</h4>
+          <div style="background:#f5f5f5;border-radius:8px;padding:20px;text-align:center;">
+            <div style="display:flex;align-items:flex-end;justify-content:center;gap:20px;height:150px;">
+              <div style="text-align:center;"><div style="width:50px;height:120px;background:#667eea;border-radius:4px 4px 0 0;"></div><span style="font-size:0.7em;">频繁</span></div>
+              <div style="text-align:center;"><div style="width:50px;height:30px;background:#764ba2;border-radius:4px 4px 0 0;"></div><span style="font-size:0.7em;">偶尔</span></div>
+              <div style="text-align:center;"><div style="width:50px;height:15px;background:#f5576c;border-radius:4px 4px 0 0;"></div><span style="font-size:0.7em;">极少</span></div>
+            </div>
+            <p style="color:#999;font-size:0.8em;">8个频繁 · 2个偶尔 · 1个极少</p>
+          </div>
+        </div>
+        <!-- 帮助程度 -->
+        <div style="border:1px solid #eee;border-radius:12px;padding:16px;">
+          <h4 style="margin:0 0 12px;">🥧 AI对工作的帮助程度</h4>
+          <div style="background:#f5f5f5;border-radius:8px;padding:20px;text-align:center;">
+            <div style="width:120px;height:120px;border-radius:50%;background:conic-gradient(#4caf50 0% 45%, #2196f3 45% 73%, #ff9800 73% 91%, #f44336 91% 100%);margin:0 auto;"></div>
+            <p style="color:#999;font-size:0.8em;">极大提升 5 · 有效提升 3 · 一般 2 · 无用 1</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>区域三：问题与痛点分析</h3>
+  <div class="mockup">
+    <div class="mockup-header">多选统计 — 横向条形图展示各项占比</div>
+    <div class="mockup-body" style="padding:20px;">
+      <div style="border:1px solid #eee;border-radius:12px;padding:16px;">
+        <h4 style="margin:0 0 16px;">⚠️ 团队使用AI遇到的问题（多选统计）</h4>
+        <div style="display:flex;flex-direction:column;gap:12px;">
+          <div style="display:flex;align-items:center;gap:12px;">
+            <span style="width:180px;font-size:0.85em;text-align:right;">专业性不足</span>
+            <div style="flex:1;background:#eee;border-radius:6px;height:24px;overflow:hidden;">
+              <div style="width:73%;height:100%;background:#f44336;border-radius:6px;"></div>
+            </div>
+            <span style="font-size:0.85em;font-weight:bold;">8/11</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <span style="width:180px;font-size:0.85em;text-align:right;">内容准确性不足</span>
+            <div style="flex:1;background:#eee;border-radius:6px;height:24px;overflow:hidden;">
+              <div style="width:64%;height:100%;background:#ff9800;border-radius:6px;"></div>
+            </div>
+            <span style="font-size:0.85em;font-weight:bold;">7/11</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <span style="width:180px;font-size:0.85em;text-align:right;">信息安全顾虑</span>
+            <div style="flex:1;background:#eee;border-radius:6px;height:24px;overflow:hidden;">
+              <div style="width:55%;height:100%;background:#2196f3;border-radius:6px;"></div>
+            </div>
+            <span style="font-size:0.85em;font-weight:bold;">6/11</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <span style="width:180px;font-size:0.85em;text-align:right;">响应速度慢</span>
+            <div style="flex:1;background:#eee;border-radius:6px;height:24px;overflow:hidden;">
+              <div style="width:55%;height:100%;background:#9c27b0;border-radius:6px;"></div>
+            </div>
+            <span style="font-size:0.85em;font-weight:bold;">6/11</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <span style="width:180px;font-size:0.85em;text-align:right;">操作门槛高</span>
+            <div style="flex:1;background:#eee;border-radius:6px;height:24px;overflow:hidden;">
+              <div style="width:45%;height:100%;background:#4caf50;border-radius:6px;"></div>
+            </div>
+            <span style="font-size:0.85em;font-weight:bold;">5/11</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>区域四：团队对比矩阵</h3>
+  <div class="mockup">
+    <div class="mockup-header">横向对比各团队的AI应用成熟度</div>
+    <div class="mockup-body" style="padding:20px;overflow-x:auto;">
+      <table style="width:100%;border-collapse:collapse;font-size:0.85em;">
+        <tr style="background:#f5f5f5;">
+          <th style="padding:10px;text-align:left;border-bottom:2px solid #ddd;position:sticky;left:0;background:#f5f5f5;">团队</th>
+          <th style="padding:10px;text-align:center;border-bottom:2px solid #ddd;">使用频率</th>
+          <th style="padding:10px;text-align:center;border-bottom:2px solid #ddd;">工具数量</th>
+          <th style="padding:10px;text-align:center;border-bottom:2px solid #ddd;">帮助程度</th>
+          <th style="padding:10px;text-align:center;border-bottom:2px solid #ddd;">效率提升</th>
+          <th style="padding:10px;text-align:center;border-bottom:2px solid #ddd;">核心问题</th>
+        </tr>
+        <tr><td style="padding:10px;border-bottom:1px solid #eee;">托管系统运维</td><td style="text-align:center;padding:10px;border-bottom:1px solid #eee;">🟢 频繁</td><td style="text-align:center;padding:10px;border-bottom:1px solid #eee;">1</td><td style="text-align:center;padding:10px;border-bottom:1px solid #eee;">有效</td><td style="text-align:center;padding:10px;border-bottom:1px solid #eee;">-</td><td style="text-align:center;padding:10px;border-bottom:1px solid #eee;">操作门槛</td></tr>
+        <tr style="background:#fafafa;"><td style="padding:10px;border-bottom:1px solid #eee;">数据库运维</td><td style="text-align:center;padding:10px;border-bottom:1px solid #eee;">🟢 频繁</td><td style="text-align:center;padding:10px;border-bottom:1px solid #eee;">4</td><td style="text-align:center;padding:10px;border-bottom:1px solid #eee;">极大</td><td style="text-align:center;padding:10px;border-bottom:1px solid #eee;">-</td><td style="text-align:center;padding:10px;border-bottom:1px solid #eee;">数据安全</td></tr>
+        <tr><td style="padding:10px;border-bottom:1px solid #eee;">生产调度</td><td style="text-align:center;padding:10px;border-bottom:1px solid #eee;">🟡 混合</td><td style="text-align:center;padding:10px;border-bottom:1px solid #eee;">1-2</td><td style="text-align:center;padding:10px;border-bottom:1px solid #eee;">一般</td><td style="text-align:center;padding:10px;border-bottom:1px solid #eee;">-</td><td style="text-align:center;padding:10px;border-bottom:1px solid #eee;">安装门槛</td></tr>
+        <tr style="background:#fafafa;"><td style="padding:10px;">...</td><td style="text-align:center;padding:10px;">...</td><td style="text-align:center;padding:10px;">...</td><td style="text-align:center;padding:10px;">...</td><td style="text-align:center;padding:10px;">...</td><td style="text-align:center;padding:10px;">...</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>区域五：操作区</h3>
+  <div class="mockup">
+    <div class="mockup-header">导出 + 原始数据</div>
+    <div class="mockup-body" style="padding:20px;">
+      <div style="display:flex;gap:12px;flex-wrap:wrap;">
+        <button class="mock-button" style="background:#4caf50;color:#fff;padding:10px 20px;">📥 导出 Excel 报告</button>
+        <button class="mock-button" style="background:#2196f3;color:#fff;padding:10px 20px;">📄 导出 PDF 报告</button>
+        <button class="mock-button" style="background:#ff9800;color:#fff;padding:10px 20px;">📋 查看原始数据表</button>
+        <button class="mock-button" style="background:#9c27b0;color:#fff;padding:10px 20px;">🔄 刷新数据</button>
+      </div>
+    </div>
+  </div>
+</div>

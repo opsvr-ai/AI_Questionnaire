@@ -1,0 +1,89 @@
+<h2>📊 现有问卷数据分析</h2>
+<p class="subtitle">从Excel中识别出：<strong>11个团队</strong>、<strong>26条记录</strong>、<strong>16个问题</strong></p>
+
+<div class="section">
+  <h3>🏢 参与调研的团队</h3>
+  <div style="display:flex;flex-wrap:wrap;gap:8px;">
+    <span class="mock-button" style="background:#e8f5e9;color:#2e7d32;">托管系统运维团队</span>
+    <span class="mock-button" style="background:#e3f2fd;color:#1565c0;">数据库运维组</span>
+    <span class="mock-button" style="background:#fff3e0;color:#e65100;">生产调度团队</span>
+    <span class="mock-button" style="background:#f3e5f5;color:#7b1fa2;">商务管理团队</span>
+    <span class="mock-button" style="background:#e8eaf6;color:#283593;">网络运维团队</span>
+    <span class="mock-button" style="background:#fce4ec;color:#c62828;">流程管理组</span>
+    <span class="mock-button" style="background:#e0f2f1;color:#00695c;">运行监控团队</span>
+    <span class="mock-button" style="background:#fff8e1;color:#f57f17;">运维平台支撑团队</span>
+    <span class="mock-button" style="background:#f1f8e9;color:#558b2f;">主机运维团队</span>
+    <span class="mock-button" style="background:#ede7f6;color:#4527a0;">测试环境支持团队</span>
+    <span class="mock-button" style="background:#fbe9e7;color:#bf360c;">中间件运维团队</span>
+  </div>
+</div>
+
+<div class="section">
+  <h3>📋 问卷涵盖的16个问题维度</h3>
+  <div class="cards">
+    <div class="card">
+      <div class="card-body">
+        <h3>🔹 基础信息</h3>
+        <p>Q1 所属团队</p>
+        <p>Q2 AI使用频率</p>
+        <p>Q3 使用的AI工具</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <h3>🔹 应用场景</h3>
+        <p>Q4 AI完成的工作内容</p>
+        <p>Q5 使用时间段</p>
+        <p>Q8 期望的AI场景</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <h3>🔹 效果评估</h3>
+        <p>Q6 帮助程度</p>
+        <p>Q8(原) 效率提升幅度</p>
+        <p>Q11 输出内容短板</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <h3>🔹 问题与障碍</h3>
+        <p>Q6(原) 遇到的问题</p>
+        <p>Q7 核心问题</p>
+        <p>Q12 是否减少使用</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <h3>🔹 需求与建议</h3>
+        <p>Q9 期望的部门支持</p>
+        <p>Q15 态度与建议</p>
+        <p>Q11(原) 未尝试场景</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>⚠️ 发现的现有问题</h3>
+  <div class="pros-cons">
+    <div class="cons">
+      <h4>数据层面</h4>
+      <ul>
+        <li>同一团队有多条重复/近似记录（如托管系统运维团队2条完全相同）</li>
+        <li>部分问题大量空值（Q5时间段全为空、Q15态度全为空）</li>
+        <li>数据以逗号分隔的多选文本存储，难以做结构化分析</li>
+        <li>缺少时间戳，无法追踪填写时间</li>
+      </ul>
+    </div>
+    <div class="cons">
+      <h4>问卷设计层面</h4>
+      <ul>
+        <li>问题编号混乱（Excel列顺序与题号不匹配）</li>
+        <li>部分选项表述不够精确，导致回答离散度高</li>
+        <li>缺少"组" vs "个人"的明确区分（现有数据混杂）</li>
+        <li>缺少对组长填写的引导和验证</li>
+      </ul>
+    </div>
+  </div>
+</div>
