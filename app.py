@@ -89,6 +89,11 @@ def dashboard():
     return app.send_static_file("dashboard.html")
 
 
+@app.route("/report")
+def report():
+    return app.send_static_file("report.html")
+
+
 @app.route("/api/teams")
 def api_teams():
     return jsonify(TEAMS)

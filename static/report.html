@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>团队报告 — AI 工具使用情况调研</title>
+<link rel="stylesheet" href="/static/fonts/fonts.css">
+<link rel="stylesheet" href="/static/style.css">
+<style>
+  .team-card {
+    background: var(--c-surface); border: 1px solid var(--c-border);
+    border-radius: var(--radius-lg); margin-bottom: 24px; overflow: hidden;
+  }
+  .team-card-header {
+    padding: 16px 24px; border-bottom: 1px solid var(--c-border);
+    display: flex; justify-content: space-between; align-items: center;
+    background: var(--c-bg);
+  }
+  .team-card-header h2 { font-size: 16px; margin: 0; }
+  .team-card-body { padding: 20px 24px; }
+  .qa-block { margin-bottom: 20px; }
+  .qa-block:last-child { margin-bottom: 0; }
+  .qa-q {
+    font-size: 13px; font-weight: 500; color: var(--c-text);
+    margin-bottom: 4px; font-family: var(--font-sans);
+  }
+  .qa-a {
+    font-size: 14px; color: var(--c-text-secondary); line-height: 1.7;
+    display: flex; flex-wrap: wrap; gap: 6px;
+  }
+  .qa-tag {
+    display: inline-block; padding: 2px 10px; border-radius: var(--radius-sm);
+    font-size: 13px; background: var(--c-primary-light); color: var(--c-primary);
+    border: 1px solid #BFDBFE;
+  }
+  .qa-text { color: var(--c-text-secondary); line-height: 1.7; }
+  .qa-empty { color: var(--c-text-muted); font-style: italic; }
+  .section-divider {
+    padding: 8px 24px; background: var(--c-bg);
+    font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em;
+    color: var(--c-primary); font-weight: 600; border-bottom: 1px solid var(--c-border);
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header class="page-header flex-between">
+    <div>
+      <div class="eyebrow">Report · 详细报告</div>
+      <h1>各团队填写情况</h1>
+    </div>
+    <div class="text-sm text-muted" style="text-align:right;">
+      共 <strong id="teamCount" style="color:var(--c-primary);">--</strong> 个团队<br>
+      <a href="/dashboard">← 返回仪表盘</a>
+    </div>
+  </header>
+
+  <div id="reportContent">
+    <div class="loading">加载中</div>
+  </div>
+
+</div>
+<script src="/static/report.js"></script>
+</body>
+</html>
