@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 工具使用情况调研</title>
+<link rel="stylesheet" href="/static/fonts/fonts.css">
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div class="container" id="app">
+
+  <header class="page-header">
+    <div class="eyebrow">Internal Survey · 部门内部调研</div>
+    <h1>AI 工具使用情况调研</h1>
+    <p>请各组组长汇总本组实际情况后如实填写。每个团队限提交一份，提交前请仔细确认信息准确性。</p>
+  </header>
+
+  <div class="step-progress" id="stepProgress">
+    <div class="step active">
+      <div class="step-num">1</div><span class="step-label">基础画像</span>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div><span class="step-label">应用现状</span>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div><span class="step-label">核心痛点</span>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div><span class="step-label">期望建议</span>
+    </div>
+  </div>
+
+  <div id="formContent"></div>
+  <div id="successView" style="display:none;"></div>
+
+</div>
+
+<div id="reviewModal" class="modal-overlay" style="display:none;">
+  <div class="modal-box">
+    <h2>确认提交</h2>
+    <p style="margin-bottom:20px;">请核对以下信息，提交后将无法自行修改。</p>
+    <div id="reviewContent" style="font-size:13px;"></div>
+    <div style="display:flex;justify-content:flex-end;gap:12px;margin-top:24px;padding-top:20px;border-top:1px solid var(--c-border);">
+      <button class="btn" onclick="closeReview()">返回修改</button>
+      <button class="btn btn-primary" id="confirmSubmit">确认提交</button>
+    </div>
+  </div>
+</div>
+
+<script src="/static/form.js"></script>
+</body>
+</html>

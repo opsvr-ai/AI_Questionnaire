@@ -1,0 +1,378 @@
+/* === AI Survey Form === */
+
+const TEAM_NAMES = [
+  "托管系统运维团队", "数据库运维组", "生产调度团队",
+  "商务管理团队", "网络运维团队", "流程管理组",
+  "运行监控团队", "运维平台支撑团队", "主机运维团队",
+  "测试环境支持团队", "中间件运维团队"
+];
+
+const formData = {
+  team: '', submitter: '',
+  q3_frequency: '', q4_tools: [], q5_work_types: [],
+  q6_help_level: '', q7_efficiency: '', q8_problems: [],
+  q9_core_problem: [], q10_weakness: [], q11_reduced: [],
+  q12_untried_scenarios: '', q13_desired_scenarios: [],
+  q14_support_needs: [], q15_suggestions: '',
+};
+
+let currentStep = 0;
+let submittedTeams = [];
+
+const STEPS = [
+  {
+    title: '基础画像',
+    questions: [
+      { id: 'team', type: 'select', label: '所属团队', required: true, options: TEAM_NAMES, placeholder: '请选择团队…' },
+      { id: 'submitter', type: 'text', label: '填写人姓名', required: true, placeholder: '组长姓名' },
+      { id: 'q3_frequency', type: 'radio', label: '团队使用 AI 工具的频率是？', required: true,
+        options: ['频繁使用 — 每日都会用到', '经常使用 — 每周多次', '偶尔使用 — 每周 1-3 次', '极少使用 — 每月偶尔用', '从不使用'] },
+      { id: 'q4_tools', type: 'checkbox-tags', label: '团队目前使用的 AI 工具有哪些？', required: false,
+        options: ['AI 对话（通用AI对话）', 'Claude Code（终端编码Agent）', 'Hermes-Agent（自进化通用智能体）',
+                  'OpenClaw（AI工作流自动化助手）', '通义灵码（智能编码助手）', 'OpenCode（终端编码Agent）'],
+        tagPlaceholder: '输入工具名称，Enter 添加…' },
+    ]
+  },
+  {
+    title: '应用现状',
+    questions: [
+      { id: 'q5_work_types', type: 'checkbox-tags', label: 'AI 工具主要帮团队完成了哪些工作内容？', required: false,
+        options: ['文案工作：总结、汇报、方案、通知等撰写修改', '办公处理：排版润色、翻译、长文本总结',
+                  '数据工作：整理、计算、报表、分析、复盘', '展示物料：PPT生成、海报/配图素材',
+                  '沟通工作：对外话术、答疑模板', '学习提升：业务答疑、方法学习',
+                  '功能开发：前端设计、开发、测试', '日常运维：脚本、告警分析、知识问答',
+                  '流程管理：变更评审、流程管理', '创新工作：活动策划、思路构思'],
+        tagPlaceholder: '输入其他工作内容，Enter 添加…' },
+      { id: 'q6_help_level', type: 'radio', label: 'AI 工具对团队工作的帮助程度如何？', required: true,
+        options: ['极大提升 — 大幅节省时间、提升质量、降低压力', '有效提升 — 对部分工作有明显辅助',
+                  '一般 — 偶尔有帮助，不明显', '几乎无帮助 — 实用性低', '完全无帮助'] },
+      { id: 'q7_efficiency', type: 'radio', label: '使用 AI 后，团队工作效率提升幅度？', required: true,
+        options: ['提升 50% 以上', '提升 30%-50%', '提升 10%-30%', '提升不足 10%', '无明显提升'] },
+      { id: 'q8_problems', type: 'checkbox-tags', label: '团队在使用 AI 工具时遇到过哪些问题？', required: false,
+        options: ['内容准确性不足：输出存在错误偏差，需要大量核对', '专业性不足：内容通用化、不落地',
+                  '信息安全顾虑：担心涉密内容和业务数据泄露', '时效性不足：生成速度慢',
+                  '安装问题：安装门槛高，内网环境困难', '操作门槛问题：不会精准提问、调教内容',
+                  '工具繁杂混乱：工具太多、切换繁琐', '无明显问题，使用顺畅'],
+        tagPlaceholder: '输入其他问题，Enter 添加…' },
+    ]
+  },
+  {
+    title: '核心痛点',
+    questions: [
+      { id: 'q9_core_problem', type: 'radio-tags', label: '遇到的最大核心问题是？', required: false,
+        options: ['专业能力不足，无法适配岗位业务场景', '输出幻觉高（内容虚构、数据错误）',
+                  '响应/输出速度慢，影响办公效率', '内网安装困难，安装门槛高',
+                  '存在数据安全、涉密泄露风险隐患', '无明显核心问题，整体使用良好'],
+        tagPlaceholder: '输入其他核心问题，Enter 添加…' },
+      { id: 'q10_weakness', type: 'radio-tags', label: '当前 AI 输出内容最大的短板是？', required: false,
+        options: ['专业深度不够', '准确性不可靠', '响应速度慢', '无法理解复杂指令', '缺乏业务上下文', '格式/排版质量差'],
+        tagPlaceholder: '输入其他短板，Enter 添加…' },
+      { id: 'q11_reduced', type: 'checkbox-tags', label: '是否因为各类问题，主动减少或放弃使用 AI 工具？', required: false,
+        options: ['因信息安全顾虑减少使用', '因输出质量不可靠减少使用', '因响应速度慢减少使用',
+                  '因操作门槛高减少使用', '没有减少，持续使用', '从未大量使用过'],
+        tagPlaceholder: '输入其他原因，Enter 添加…' },
+      { id: 'q12_untried_scenarios', type: 'textarea', label: '团队有没有 AI 可以解决但尚未尝试的工作难点？', required: false,
+        placeholder: '请简要说明…', rows: 3 },
+    ]
+  },
+  {
+    title: '期望建议',
+    questions: [
+      { id: 'q13_desired_scenarios', type: 'checkbox-tags', label: '最希望用 AI 赋能哪些未落地的工作场景？', required: false,
+        options: ['高频文案批量生成（周报/月报/复盘/汇报等）', '业务数据智能分析、自动复盘、问题总结',
+                  '标准化模板生成（公文/方案/PPT/话术等）', '工作问题智能答疑、业务知识快速查询',
+                  '运维脚本开发、分析', '告警诊断', '功能开发设计、平台优化',
+                  '日常巡检、系统分析', '变更评审、变更方案分析、变更风险分析',
+                  '素材、配图、可视化展示内容生成', '工作流程优化、创新方案策划辅助', '知识管理'],
+        tagPlaceholder: '输入其他场景，Enter 添加…' },
+      { id: 'q14_support_needs', type: 'checkbox-tags', label: '希望部门提供哪些 AI 相关支持？', required: false,
+        options: ['统一推荐适配部门业务的优质AI工具（合规工具清单）', '开展AI使用技巧、高效提问、场景化应用培训',
+                  '搭建部门内部AI共享工具/平台，保障数据安全', '不需要额外支持，自主使用即可'],
+        tagPlaceholder: '输入其他支持需求，Enter 添加…' },
+      { id: 'q15_suggestions', type: 'textarea', label: '对部门 AI 工具应用、优化、推广有哪些宝贵的意见和建议？', required: false,
+        placeholder: '请畅所欲言…', rows: 4 },
+    ]
+  }
+];
+
+// === Helpers ===
+function escHtml(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+function escAttr(s) { return s.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/'/g,'&#39;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function getOpts(id) {
+  for (const step of STEPS) for (const q of step.questions) if (q.id === id) return q.options || [];
+  return [];
+}
+
+// === Init ===
+async function init() {
+  try { const r = await fetch('/api/submissions'); submittedTeams = await r.json(); } catch (e) {}
+  renderStep(0);
+}
+
+// === Render ===
+function renderStep(si) {
+  currentStep = si;
+  const step = STEPS[si];
+  const c = document.getElementById('formContent');
+  let h = '';
+
+  step.questions.forEach((q, qi) => {
+    const v = formData[q.id];
+    h += `<div class="section"><div class="section-header"><h3>Q${qi + 1}</h3><p class="q-title">${q.label}${q.required ? ' <span style="color:var(--c-error)">*</span>' : ''}</p></div>`;
+
+    if (q.type === 'select') h += renderSelect(q, v);
+    else if (q.type === 'text') h += renderText(q, v);
+    else if (q.type === 'radio') h += renderRadio(q, v);
+    else if (q.type === 'checkbox-tags') h += renderCheckboxTags(q, v);
+    else if (q.type === 'radio-tags') h += renderRadioTags(q, v);
+    else if (q.type === 'textarea') h += renderTextarea(q, v);
+
+    h += '</div>';
+  });
+
+  h += '<div class="flex-between" style="border-top:1px solid var(--c-border);padding-top:24px;margin-top:32px;">';
+  h += si > 0 ? '<button class="btn" onclick="prevStep()">← 上一步</button>' : '<span></span>';
+  h += `<span class="text-sm text-muted">第 ${si + 1} 步，共 ${STEPS.length} 步</span>`;
+  if (si < STEPS.length - 1) h += '<button class="btn btn-primary" onclick="nextStep()">下一步 →</button>';
+  else h += '<button class="btn btn-primary" onclick="previewSubmit()">预览并提交</button>';
+  h += '</div>';
+
+  c.innerHTML = h;
+  updateProgress(si);
+  window.scrollTo(0, 0);
+}
+
+function updateProgress(si) {
+  document.querySelectorAll('#stepProgress .step').forEach((s, i) => {
+    s.classList.remove('active', 'done');
+    if (i < si) s.classList.add('done');
+    else if (i === si) s.classList.add('active');
+  });
+}
+
+// === Render helpers ===
+function renderSelect(q, v) {
+  let h = `<select class="form-select" id="${q.id}" onchange="updateField('${q.id}', this.value)">`;
+  h += `<option value="">${q.placeholder || '请选择…'}</option>`;
+  q.options.forEach(opt => {
+    const disabled = q.id === 'team' && submittedTeams.includes(opt);
+    h += `<option value="${escAttr(opt)}" ${v === opt ? 'selected' : ''} ${disabled ? 'disabled' : ''}>${escHtml(opt)}${disabled ? ' (已提交)' : ''}</option>`;
+  });
+  h += '</select>';
+  return h;
+}
+
+function renderText(q, v) {
+  return `<input class="form-input" id="${q.id}" type="text" placeholder="${escAttr(q.placeholder || '')}" value="${escAttr(v || '')}" onchange="updateField('${q.id}', this.value)">`;
+}
+
+function renderRadio(q, v) {
+  let h = '<div class="option-group">';
+  q.options.forEach(opt => {
+    const sel = v === opt;
+    h += `<label class="option-card${sel ? ' selected' : ''}" onclick="selectRadio('${q.id}', this)">`;
+    h += `<input type="radio" name="${q.id}" ${sel ? 'checked' : ''}>${escHtml(opt)}</label>`;
+  });
+  h += '</div>';
+  return h;
+}
+
+function renderCheckboxTags(q, v) {
+  const arr = Array.isArray(v) ? v : [];
+  const preset = arr.filter(x => q.options.includes(x));
+  const custom = arr.filter(x => !q.options.includes(x));
+
+  let h = '<div class="option-grid">';
+  q.options.forEach(opt => {
+    const ck = preset.includes(opt);
+    h += `<label class="option-card${ck ? ' selected' : ''}" onclick="toggleCheckbox('${q.id}', this)">`;
+    h += `<input type="checkbox" value="${escAttr(opt)}" ${ck ? 'checked' : ''}>${escHtml(opt)}</label>`;
+  });
+  h += '</div>';
+  h += renderTagArea(q, custom);
+  return h;
+}
+
+function renderRadioTags(q, v) {
+  const arr = Array.isArray(v) ? v : [];
+  const preset = arr.find(x => q.options.includes(x)) || '';
+  const custom = arr.filter(x => !q.options.includes(x));
+
+  let h = '<div class="option-group">';
+  q.options.forEach(opt => {
+    const sel = preset === opt;
+    h += `<label class="option-card${sel ? ' selected' : ''}" onclick="selectRadioTag('${q.id}', this)">`;
+    h += `<input type="radio" name="${q.id}" ${sel ? 'checked' : ''}>${escHtml(opt)}</label>`;
+  });
+  h += '</div>';
+  h += renderTagArea(q, custom);
+  return h;
+}
+
+function renderTagArea(q, customTags) {
+  let h = `<div class="tag-area" data-field="${q.id}">`;
+  h += '<div class="tag-list">';
+  customTags.forEach(tag => {
+    h += `<span class="tag">${escHtml(tag)}<button class="tag-remove" onclick="removeCustomTag('${q.id}', this)">&times;</button></span>`;
+  });
+  h += '</div>';
+  h += '<div class="tag-input-row">';
+  h += `<input type="text" placeholder="${escAttr(q.tagPlaceholder || '输入后按 Enter 添加…')}" onkeydown="handleTagKey(event, '${q.id}')">`;
+  h += '<span class="tag-hint">Enter ↵</span>';
+  h += '</div></div>';
+  return h;
+}
+
+function renderTextarea(q, v) {
+  return `<textarea class="form-textarea" id="${q.id}" placeholder="${escAttr(q.placeholder || '')}" rows="${q.rows || 4}" onchange="updateField('${q.id}', this.value)">${escHtml(v || '')}</textarea>`;
+}
+
+// === Field updates ===
+function updateField(id, value) { formData[id] = value; }
+
+function selectRadio(id, el) {
+  el.parentElement.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  el.querySelector('input').checked = true;
+  formData[id] = el.textContent.trim();
+}
+
+function selectRadioTag(id, el) {
+  el.parentElement.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  el.querySelector('input').checked = true;
+  const opts = getOpts(id);
+  const arr = Array.isArray(formData[id]) ? formData[id].filter(x => !opts.includes(x)) : [];
+  formData[id] = [el.textContent.trim(), ...arr];
+}
+
+function toggleCheckbox(id, el) {
+  const val = el.querySelector('input').value;
+  let arr = Array.isArray(formData[id]) ? [...formData[id]] : [];
+  if (arr.includes(val)) {
+    arr = arr.filter(x => x !== val);
+    el.classList.remove('selected');
+    el.querySelector('input').checked = false;
+  } else {
+    arr.push(val);
+    el.classList.add('selected');
+    el.querySelector('input').checked = true;
+  }
+  formData[id] = arr;
+}
+
+// === Tag Input ===
+function handleTagKey(event, fieldId) {
+  if (event.key === 'Enter') {
+    event.preventDefault();
+    const val = event.target.value.trim();
+    if (!val) return;
+    let arr = Array.isArray(formData[fieldId]) ? [...formData[fieldId]] : [];
+    if (!arr.includes(val)) arr.push(val);
+    formData[fieldId] = arr;
+    event.target.value = '';
+    renderStep(currentStep);
+  } else if (event.key === 'Backspace' && event.target.value === '') {
+    const opts = getOpts(fieldId);
+    let arr = Array.isArray(formData[fieldId]) ? [...formData[fieldId]] : [];
+    const custom = arr.filter(x => !opts.includes(x));
+    if (custom.length > 0) {
+      arr = arr.filter(x => x !== custom[custom.length - 1]);
+      formData[fieldId] = arr;
+      renderStep(currentStep);
+    }
+  }
+}
+
+function removeCustomTag(fieldId, btn) {
+  const tagText = btn.parentElement.textContent.replace('×', '').trim();
+  let arr = Array.isArray(formData[fieldId]) ? [...formData[fieldId]] : [];
+  formData[fieldId] = arr.filter(x => x !== tagText);
+  renderStep(currentStep);
+}
+
+// === Navigation ===
+function nextStep() {
+  if (!validateStep(currentStep)) return;
+  if (currentStep < STEPS.length - 1) renderStep(currentStep + 1);
+}
+
+function prevStep() { if (currentStep > 0) renderStep(currentStep - 1); }
+
+function validateStep(si) {
+  const errs = [];
+  STEPS[si].questions.forEach(q => {
+    if (!q.required) return;
+    const v = formData[q.id];
+    if (!v || (Array.isArray(v) && v.length === 0)) errs.push(`"${q.label}" 为必填项`);
+  });
+  if (errs.length > 0) { showToast(errs.join('<br>'), 'error'); return false; }
+  return true;
+}
+
+// === Preview & Submit ===
+function previewSubmit() {
+  if (!validateStep(currentStep)) return;
+  let h = '';
+  STEPS.forEach((step, si) => {
+    h += `<h3 style="margin-top:16px;">${si + 1}. ${step.title}</h3>`;
+    step.questions.forEach(q => {
+      const v = formData[q.id];
+      const d = Array.isArray(v) ? v.join('、') || '(未填写)' : (v || '(未填写)');
+      h += `<p style="margin:4px 0;"><strong>${q.label}</strong><br><span style="color:var(--c-text-secondary);">${escHtml(d)}</span></p>`;
+    });
+  });
+  document.getElementById('reviewContent').innerHTML = h;
+  document.getElementById('reviewModal').style.display = 'flex';
+  document.getElementById('confirmSubmit').onclick = async () => { await submitForm(); closeReview(); };
+}
+
+function closeReview() { document.getElementById('reviewModal').style.display = 'none'; }
+
+async function submitForm() {
+  const btn = document.getElementById('confirmSubmit');
+  btn.disabled = true; btn.textContent = '提交中…';
+  try {
+    const res = await fetch('/api/submit', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(formData) });
+    const data = await res.json();
+    if (res.ok) showSuccess(data.team);
+    else showToast(data.error || '提交失败', 'error');
+  } catch (e) {
+    showToast('网络错误，请检查连接后重试', 'error');
+  } finally { btn.disabled = false; btn.textContent = '确认提交'; }
+}
+
+function showSuccess(team) {
+  document.getElementById('formContent').style.display = 'none';
+  document.getElementById('stepProgress').style.display = 'none';
+  const v = document.getElementById('successView');
+  v.style.display = 'block';
+  v.innerHTML = `<div class="empty-state">
+    <svg width="64" height="64" viewBox="0 0 64 64" style="margin-bottom:16px;">
+      <circle cx="32" cy="32" r="30" fill="none" stroke="var(--c-success)" stroke-width="2"/>
+      <path d="M20 32 L28 40 L44 24" fill="none" stroke="var(--c-success)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <h2 style="color:var(--c-success);">提交成功</h2>
+    <p>团队「${escHtml(team)}」的调研数据已保存。</p>
+    <p class="text-sm text-muted mt-16">如需修改数据，请联系管理员重新提交。</p>
+    <a href="/dashboard" class="btn btn-primary mt-24" style="display:inline-flex;">查看数据分析 →</a>
+  </div>`;
+  window.scrollTo(0, 0);
+}
+
+function showToast(msg, type) {
+  const old = document.querySelector('.toast'); if (old) old.remove();
+  const t = document.createElement('div');
+  t.className = `toast toast-${type}`; t.innerHTML = msg;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 4000);
+}
+
+// === Keyboard ===
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeReview();
+});
+
+// Boot
+document.addEventListener('DOMContentLoaded', init);

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>数据分析 — AI 工具使用情况调研</title>
+<link rel="stylesheet" href="/static/fonts/fonts.css">
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div class="container">
+
+  <header class="page-header flex-between">
+    <div>
+      <div class="eyebrow">Dashboard · 数据分析</div>
+      <h1>AI 工具使用情况</h1>
+    </div>
+    <div class="text-sm text-muted" style="text-align:right;">
+      数据截止 <strong id="updateTime" style="color:var(--c-primary);">--</strong><br>
+      已提交 <strong id="submitCount" style="color:var(--c-primary);">--</strong> / <span id="totalCount">--</span> 个团队
+    </div>
+  </header>
+
+  <div class="stats-row" id="statsRow"></div>
+  <div class="charts-grid" id="chartsRow"></div>
+
+  <div class="table-wrap" style="margin-bottom:32px;">
+    <h3>团队对比视图</h3>
+    <div style="overflow-x:auto;" id="teamTable"></div>
+  </div>
+
+  <div class="flex-between gap-12" style="flex-wrap:wrap;">
+    <div style="display:flex;gap:12px;flex-wrap:wrap;">
+      <button class="btn btn-primary" onclick="exportCSV()">导出 CSV 报告</button>
+      <button class="btn" onclick="window.print()">打印页面</button>
+      <button class="btn" id="toggleRaw">查看原始数据</button>
+    </div>
+    <a href="/" class="btn">← 返回填报页</a>
+  </div>
+
+  <div id="rawData" style="display:none;margin-top:24px;"></div>
+
+</div>
+<script src="/static/dashboard.js"></script>
+</body>
+</html>

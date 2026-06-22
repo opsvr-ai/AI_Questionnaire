@@ -1,0 +1,51 @@
+/* === Local Font Definitions ===
+   Fira Sans + Fira Code — cached for intranet deployment
+   Originally from Google Fonts */
+
+@font-face {
+  font-family: 'Fira Code';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('uU9eCBsR6Z2vfE9aq3bL0fxyUs4tcw4W_D1sFVc.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Fira Code';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('uU9eCBsR6Z2vfE9aq3bL0fxyUs4tcw4W_A9sFVc.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Fira Code';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('uU9eCBsR6Z2vfE9aq3bL0fxyUs4tcw4W_ONrFVc.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Fira Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('va9E4kDNxMZdWfMOD5VfkA.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Fira Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('va9B4kDNxMZdWfMOD5VnZKvuQQ.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Fira Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('va9B4kDNxMZdWfMOD5VnSKzuQQ.ttf') format('truetype');
+}
